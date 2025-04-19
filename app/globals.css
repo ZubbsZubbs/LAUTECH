@@ -1,26 +1,438 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap")
+layer(base);
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* body {
+  font-family: inter;
+} */
+
+@utility max-container {
+  @apply mx-auto max-w-[1440px];
+}
+
+@utility padding-container {
+  @apply px-6 lg:px-20;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", sans-serif;
+}
+
+.slide-text {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: slideUp 1.2s ease-out forwards;
+}
+
+/* Slide-in from right */
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-right {
+  animation: slideRight 1.2s ease-out forwards;
+}
+
+/* Slide-in from left */
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-left {
+  animation: slideLeft 1.2s ease-out forwards;
+}
+
+/* Zoom-out animation */
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1); /* Keep zooming out */
+  }
+}
+
+.animate-zoom-out {
+  animation: zoomOut 5s ease-out infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Fade-in and slide-up animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 7s ease-out forwards;
+}
+
+@keyframes floatLeftToRight {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-float-left-to-right {
+  animation: floatLeftToRight 1.5s ease-out forwards;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  gap: 1.5rem; /* Space between cards */
+  animation: scroll 40s linear infinite;
+}
+
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 2s ease-out forwards;
+}
+
+/* Glowing Shadow Effect */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.5); /* Blue glow */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Fade-in animation for the Hero Section */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s ease-in-out forwards;
+}
+
+/* Fade-in animation for Service Cards */
+@keyframes fade-in-card {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-card {
+  animation: fade-in-card 1s ease-in-out forwards;
+}
+
+/* Fade-in and slide-up animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+/* Fade-in animation for service cards */
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-card {
+  animation: fadeInCard 1s ease-out;
+}
+
+/* Fade-in and slide-up animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+/* Fade-in animation for service cards */
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-card {
+  animation: fadeInCard 1s ease-out;
+}
+
+/* Fade-in and slide-up animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+.animate-fade-in-up.delay-200 {
+  animation-delay: 0.2s;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Fade-in and slide-in animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-in-right {
+  animation: slideInRight 1.5s ease-out forwards;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Typewriter animation
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
+}
+.animate-typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid white;
+  animation: typewriter 3s steps(3, end);
+} */
+
+/* Glow animation */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px #3b82f6;
+  }
+  50% {
+    box-shadow: 0 0 20px #3b82f6;
+  }
+  100% {
+    box-shadow: 0 0 5px #3b82f6;
+  }
+}
+.animate-glow {
+  animation: glow 2s infinite;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1.5s ease-out forwards;
 }
