@@ -72,41 +72,52 @@ const Contact = () => {
             </p>
             <ul className="space-y-6">
               <li className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full">
                   📍
                 </div>
                 <span className="text-gray-700">
-                  123 Restech Avenue, Tech City, Country
+                  LAUTECH Teaching Hospital, Ogbomoso, Oyo State, Nigeria
                 </span>
               </li>
               <li className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full">
                   📞
                 </div>
                 <a
-                  href="tel:+1234567890"
-                  className="text-gray-700 hover:text-blue-600 transition-all"
+                  href="tel:+2348031234567"
+                  className="text-gray-700 hover:text-green-600 transition-all"
                 >
-                  +1 (234) 567-890
+                  +234 (803) 123-4567
                 </a>
               </li>
               <li className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full">
+                  🚨
+                </div>
+                <a
+                  href="tel:+2348031234568"
+                  className="text-gray-700 hover:text-green-600 transition-all"
+                >
+                  Emergency: +234 (803) 123-4568
+                </a>
+              </li>
+              <li className="flex items-center space-x-4">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full">
                   ✉️
                 </div>
                 <a
-                  href="mailto:info@restech.com"
-                  className="text-gray-700 hover:text-blue-600 transition-all"
+                  href="mailto:info@lautechhospital.edu.ng"
+                  className="text-gray-700 hover:text-green-600 transition-all"
                 >
-                  info@restech.com
+                  info@lautechhospital.edu.ng
                 </a>
               </li>
               <li className="flex items-center space-x-4">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-full">
                   🕒
                 </div>
                 <span className="text-gray-700">
-                  Mon - Fri: 9:00 AM - 6:00 PM
+                  Emergency: 24/7 | OPD: Mon - Fri: 8:00 AM - 5:00 PM
                 </span>
               </li>
             </ul>
@@ -171,7 +182,7 @@ const Contact = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all shadow-lg"
+                className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all shadow-lg"
               >
                 Send Message
               </button>

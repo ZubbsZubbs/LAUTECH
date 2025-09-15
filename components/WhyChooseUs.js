@@ -6,33 +6,33 @@ import { FaCheckCircle } from "react-icons/fa";
 const WhyChooseUs = () => {
   const reasons = [
     {
-      title: "Expert Team",
+      title: "Expert Medical Team",
       description:
-        "Our team consists of highly skilled professionals with years of experience.",
+        "Our team consists of highly qualified doctors and healthcare professionals with years of experience.",
     },
     {
-      title: "Innovative Solutions",
+      title: "Advanced Medical Technology",
       description:
-        "We provide cutting-edge technology solutions tailored to your needs.",
+        "We provide cutting-edge medical equipment and technology for accurate diagnosis and treatment.",
     },
     {
-      title: "Customer Satisfaction",
+      title: "Patient-Centered Care",
       description:
-        "We prioritize customer satisfaction and deliver exceptional results.",
+        "We prioritize patient satisfaction and deliver compassionate, personalized healthcare services.",
     },
     {
-      title: "24/7 Support",
+      title: "24/7 Emergency Care",
       description:
-        "Our support team is available around the clock to assist you.",
+        "Our emergency department is available around the clock to provide immediate medical attention.",
     },
   ];
 
   return (
-    <section className="mt-20 py-6 bg-gradient-to-r from-blue-50 via-gray-100 to-blue-50 animate-gradient text-gray-800">
+    <section className="mt-20 py-6 bg-gradient-to-r from-green-50 via-gray-100 to-green-50 animate-gradient text-gray-800">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Title */}
         <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-12">
-          Why <span className="text-blue-500">Choose Us</span>
+          Why <span className="text-green-600">Choose LAUTECH</span>
         </h2>
 
         {/* Reasons Grid */}
@@ -43,7 +43,7 @@ const WhyChooseUs = () => {
               className="flex flex-col items-center text-center bg-white shadow-lg rounded-lg p-12 border-2 border-transparent hover:border-gradient hover:shadow-glow transition-all duration-500 transform hover:scale-105"
             >
               {/* Icon */}
-              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-full mb-4 animate-pulse hover:animate-spin">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-400 text-white rounded-full mb-4 animate-pulse hover:animate-spin">
                 <FaCheckCircle size={32} />
               </div>
 

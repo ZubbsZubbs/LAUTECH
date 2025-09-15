@@ -8,43 +8,61 @@ import { useEffect, useState } from "react";
 const services = [
   {
     id: 1,
-    title: "Web Development",
+    title: "Emergency Medicine",
     description:
-      "We create responsive, fast, and secure websites for businesses.",
+      "24/7 emergency care with state-of-the-art facilities and experienced trauma specialists.",
     icon: "/slide_1.jpg",
   },
   {
     id: 2,
-    title: "Mobile App Development",
-    description: "Build high-performance mobile apps for iOS and Android.",
+    title: "Cardiology",
+    description: "Comprehensive heart care including diagnostics, treatment, and rehabilitation.",
     icon: "/slide_2.jpg",
   },
   {
     id: 3,
-    title: "UI/UX Design",
+    title: "Pediatrics",
     description:
-      "Beautiful and user-friendly interfaces for web and mobile applications.",
+      "Specialized care for infants, children, and adolescents with child-friendly facilities.",
     icon: "/slide_3.jpg",
   },
   {
     id: 4,
-    title: "Cloud Solutions",
+    title: "Surgery",
     description:
-      "Scalable cloud-based solutions for businesses and enterprises.",
+      "Advanced surgical procedures using minimally invasive techniques and modern equipment.",
     icon: "/slide_4.jpg",
   },
   {
     id: 5,
-    title: "Cybersecurity",
+    title: "Oncology",
     description:
-      "Protect your business with the latest cybersecurity solutions.",
+      "Comprehensive cancer care including diagnosis, treatment, and supportive care.",
     icon: "/slide_1.jpg",
   },
   {
     id: 6,
-    title: "Digital Marketing",
-    description: "Grow your brand with SEO, social media, and paid ads.",
+    title: "Radiology",
+    description: "Advanced imaging services including MRI, CT scans, and ultrasound.",
     icon: "/slide_2.jpg",
+  },
+  {
+    id: 7,
+    title: "Obstetrics & Gynecology",
+    description: "Women's health services from prenatal care to advanced gynecological procedures.",
+    icon: "/slide_3.jpg",
+  },
+  {
+    id: 8,
+    title: "Neurology",
+    description: "Specialized care for brain, spine, and nervous system disorders.",
+    icon: "/slide_4.jpg",
+  },
+  {
+    id: 9,
+    title: "Orthopedics",
+    description: "Bone, joint, and muscle care including sports medicine and rehabilitation.",
+    icon: "/slide_1.jpg",
   },
 ];
 
@@ -80,7 +98,7 @@ const OurServices = () => {
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <h1 className="relative text-4xl md:text-5xl font-bold animate-fade-in-up">
-          Our Services
+          Medical Services
         </h1>
       </div>
 
@@ -92,11 +110,11 @@ const OurServices = () => {
         }`}
       >
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">
-          What We Offer
+          Our Medical Departments
         </h2>
         <p className="text-gray-600 text-center max-w-2xl mx-auto mb-10">
-          We provide a wide range of technology and digital services to help
-          your business grow.
+          We provide comprehensive healthcare services across multiple specialties 
+          with state-of-the-art facilities and expert medical professionals.
         </p>
 
         {/* Services Grid */}

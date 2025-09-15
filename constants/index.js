@@ -2,8 +2,10 @@
 
 export const NAV_LINKS = [
   { key: "home", label: "Home", href: "/" },
-  { key: "services", label: "Services", href: "/services" },
-  { key: "about", label: "About", href: "/about" },
+  { key: "services", label: "Medical Services", href: "/services" },
+  { key: "departments", label: "Departments", href: "/departments" },
+  { key: "about", label: "About Hospital", href: "/about" },
+  { key: "doctors", label: "Our Doctors", href: "/doctors" },
   { key: "contact", label: "Contact Us", href: "/contact" },
-  { key: "meet", label: "Meet our Staff", href: "/meet" },
+  { key: "emergency", label: "Emergency", href: "/emergency" },
 ];

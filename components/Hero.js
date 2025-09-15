@@ -5,73 +5,73 @@ import { FaBullseye, FaEye, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 
 const testimonials = [
   {
-    name: "John Doe",
-    position: "CEO, TechCorp",
+    name: "Dr. Sarah Johnson",
+    position: "Chief Medical Officer",
     message:
-      "Restech transformed our business with cutting-edge solutions. Highly recommended!",
+      "LAUTECH Teaching Hospital provides exceptional patient care while training the next generation of medical professionals.",
     image: "/s1.jpg",
   },
   {
-    name: "Jane Smith",
-    position: "Marketing Manager, DigitalEdge",
+    name: "Michael Adebayo",
+    position: "Patient",
     message:
-      "The best tech company we've ever worked with. Their innovation is unmatched!",
+      "The care I received here was outstanding. The doctors and nurses were compassionate and highly skilled.",
     image: "/s2.jpg",
   },
   {
-    name: "Michael Lee",
-    position: "Founder, StartupX",
+    name: "Dr. Fatima Ibrahim",
+    position: "Resident Physician",
     message:
-      "Incredible service and support. Restech helped us scale our business quickly!",
+      "Training at LAUTECH has been incredible. The mentorship and hands-on experience are world-class.",
     image: "/s3.jpg",
   },
   {
-    name: "Emily Davis",
-    position: "CTO, Innovatech",
+    name: "Grace Okafor",
+    position: "Patient's Family",
     message:
-      "Their team is highly professional and delivers exceptional results every time.",
+      "During my mother's treatment, the entire team showed such dedication and care. We're forever grateful.",
     image: "/s4.jpg",
   },
   {
-    name: "Chris Johnson",
-    position: "Product Manager, NextGen",
+    name: "Dr. James Okonkwo",
+    position: "Attending Physician",
     message:
-      "Restech's solutions have been a game-changer for our product development.",
+      "The hospital's commitment to medical education and research excellence is truly remarkable.",
     image: "/s5.jpg",
   },
   {
-    name: "Sophia Brown",
-    position: "Entrepreneur",
+    name: "Aisha Mohammed",
+    position: "Patient",
     message:
-      "I couldn't have asked for a better partner to help grow my business.",
+      "From emergency care to follow-up, LAUTECH provided comprehensive and compassionate treatment.",
     image: "/s6.jpg",
   },
   {
-    name: "Daniel Wilson",
-    position: "Operations Head, FutureWorks",
+    name: "Dr. Peter Williams",
+    position: "Department Head",
     message:
-      "Their innovative approach and attention to detail are truly impressive.",
+      "Our multidisciplinary approach ensures patients receive the best possible care from our expert teams.",
     image: "/s5.jpg",
   },
   {
-    name: "Olivia Martinez",
-    position: "Creative Director, BrightIdeas",
+    name: "Blessing Nwosu",
+    position: "Patient",
     message:
-      "Restech's creativity and technical expertise are unmatched in the industry.",
+      "The modern facilities and advanced technology made my treatment comfortable and effective.",
     image: "/slide_4.jpg",
   },
   {
-    name: "Liam Garcia",
-    position: "CEO, VisionaryTech",
+    name: "Dr. Amina Hassan",
+    position: "Research Director",
     message:
-      "Their solutions have helped us achieve remarkable growth in a short time.",
+      "LAUTECH's research programs are advancing medical knowledge and improving patient outcomes.",
     image: "/slide_1.jpg",
   },
   {
-    name: "Ava Thompson",
-    position: "Freelancer",
+    name: "Chinedu Okwu",
+    position: "Patient",
     message:
-      "Working with Restech has been an absolute pleasure. Highly recommended!",
+      "The staff's professionalism and the hospital's commitment to excellence made all the difference.",
     image: "/slide_2.jpg",
   },
 ];
@@ -144,7 +144,7 @@ export const Hero = () => {
     <section className="mt-20 relative w-full min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800 px-6 md:px-12">
       {/* Title */}
       <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-center animate-fade-in">
-        Our <span className="text-blue-400">Drive</span>
+        Our <span className="text-green-600">Mission</span>
       </h1>
 
       {/* Intro Section */}
@@ -154,13 +154,12 @@ export const Hero = () => {
           isVisible ? "animate-slide-in-right" : "opacity-0 translate-x-20"
         }`}
       >
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-blue-500">
-          Empowering Growth with Innovation
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-green-600">
+          Excellence in Healthcare & Medical Education
         </h2>
         <p className="text-sm sm:text-base md:text-lg leading-relaxed">
-          We are driven by innovation, purpose, excellence, and an unwavering
-          commitment to transforming lives and industries through cutting-edge
-          technology, strategic solutions, and meaningful impact.
+          We are committed to providing exceptional patient care, advancing medical knowledge through research, 
+          and training the next generation of healthcare professionals with compassion, innovation, and excellence.
         </p>
       </div>
 
@@ -169,40 +168,38 @@ export const Hero = () => {
         {/* Mission Statement */}
         <div
           ref={missionRef}
-          className={`p-8 bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg shadow-lg flex flex-col items-center text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl ${
+          className={`p-8 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg shadow-lg flex flex-col items-center text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl ${
             isMissionVisible ? "animate-fade-in-up" : "opacity-0 translate-y-10"
           }`}
         >
           <FaBullseye className="text-6xl text-white mb-6" />
           <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
           <p className="text-base sm:text-lg leading-relaxed">
-            We are dedicated to shaping the future of businesses and societies
-            by offering innovative, reliable, and sustainable solutions across
-            technology, hosting, media, and analytics.
+            To provide exceptional healthcare services, advance medical knowledge through research, 
+            and train competent healthcare professionals while maintaining the highest standards of patient care and safety.
           </p>
         </div>
 
         {/* Vision Statement */}
         <div
           ref={visionRef}
-          className={`p-8 bg-gradient-to-r from-blue-400 to-blue-300 text-white rounded-lg shadow-lg flex flex-col items-center text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl ${
+          className={`p-8 bg-gradient-to-r from-green-500 to-green-400 text-white rounded-lg shadow-lg flex flex-col items-center text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl ${
             isVisionVisible ? "animate-fade-in-up" : "opacity-0 translate-y-10"
           }`}
         >
           <FaEye className="text-6xl text-white mb-6" />
           <h2 className="text-3xl font-bold mb-4">Our Vision</h2>
           <p className="text-base sm:text-lg leading-relaxed">
-            Our vision is to be a beacon of transformation, recognized globally
-            for our ability to integrate technology with real-world business
-            solutions.
+            To be a leading teaching hospital recognized for excellence in patient care, 
+            medical education, and research that transforms healthcare delivery in our region.
           </p>
         </div>
       </div>
 
       {/* Testimonials Section */}
       <div className="mt-20 w-full overflow-hidden relative">
-        <h2 className="text-3xl font-bold mb-8 text-blue-500 text-center">
-          What Our Clients Say
+        <h2 className="text-3xl font-bold mb-8 text-green-600 text-center">
+          What Our Patients & Staff Say
         </h2>
 
         {/* Scrolling Container */}

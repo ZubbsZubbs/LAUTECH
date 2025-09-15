@@ -3,8 +3,8 @@ import "./globals.css";
 // import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Restech",
-  description: "Sotware Company",
+  title: "LAUTECH Teaching Hospital",
+  description: "Leading Teaching Hospital providing comprehensive healthcare services, medical education, and research excellence",
   icons: {
     icon: "/r_logo.jpg", // Path to your custom favicon
   },

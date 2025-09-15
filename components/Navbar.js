@@ -9,32 +9,32 @@ import { Menu, X, Search } from "lucide-react"; // Import Search icon
 const slides = [
   {
     image: "/s1.jpg",
-    text: "Empowering Innovation with Technology",
-    subtext: "We are Restech",
+    text: "Excellence in Healthcare & Medical Education",
+    subtext: "LAUTECH Teaching Hospital",
     textAnimation: "animate-slide-up",
   },
   {
     image: "/s2.jpg",
-    text: "Leading the Future of Digital Transformation",
-    subtext: "We are Restech",
+    text: "Compassionate Care, Advanced Medicine",
+    subtext: "Your Health, Our Priority",
     textAnimation: "animate-slide-right",
   },
   {
     image: "/s3.jpg",
-    text: "Innovate, Transform, and Succeed with Us",
-    subtext: "We are Restech",
+    text: "Training Tomorrow's Medical Leaders",
+    subtext: "Education & Excellence Combined",
     textAnimation: "animate-slide-left",
   },
   {
     image: "/s4.jpg",
-    text: "Revolutionizing the Digital Landscape",
-    subtext: "Partner with Restech for Growth",
+    text: "Innovative Healthcare Solutions",
+    subtext: "Leading Medical Research & Treatment",
     textAnimation: "animate-slide-up",
   },
   {
     image: "/s5.jpg",
-    text: "Empowering Your Business for the Future",
-    subtext: "Innovative Solutions, Real Results",
+    text: "Your Trusted Healthcare Partner",
+    subtext: "Quality Care, Every Day",
     textAnimation: "animate-slide-right",
   },
 ];
@@ -89,13 +89,18 @@ const Navbar = () => {
         <div className="flex items-center justify-between px-6 md:px-8 max-w-[1440px] mx-auto w-full">
           {/* Logo */}
           <Link href="/">
-            <Image
-              src="/c_logo.png"
-              width={64}
-              height={20}
-              alt="Logo"
-              className={`${isScrolled ? "brightness-0" : ""}`} // Make logo dark on white background
-            />
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/c_logo.png"
+                width={64}
+                height={20}
+                alt="LAUTECH Teaching Hospital Logo"
+                className={`${isScrolled ? "brightness-0" : ""}`} // Make logo dark on white background
+              />
+              <span className={`text-lg font-bold ${isScrolled ? "text-black" : "text-white"}`}>
+                LAUTECH
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

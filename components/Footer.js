@@ -34,12 +34,12 @@ const Footer = () => {
   return (
     <footer className="mt-5 min-h-[2px] bg-[url('/footer.jpg')] bg-cover bg-center bg-no-repeat text-gray-300 py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-        {/* Column 1 - Company Info */}
+        {/* Column 1 - Hospital Info */}
         <div>
-          <h2 className="text-3xl font-bold text-white">Restech</h2>
+          <h2 className="text-3xl font-bold text-white">LAUTECH Teaching Hospital</h2>
           <p className="mt-4 text-sm leading-relaxed">
-            Empowering businesses with cutting-edge technology solutions to
-            drive innovation and success.
+            Providing exceptional healthcare services, advancing medical education, 
+            and conducting groundbreaking research for the betterment of our community.
           </p>
         </div>
 
@@ -48,45 +48,63 @@ const Footer = () => {
           <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
           <ul className="space-y-3">
             <li>
-              <a href="#" className="hover:text-blue-400 transition">
+              <a href="/" className="hover:text-green-400 transition">
                 Home
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400 transition">
-                About Us
+              <a href="/about" className="hover:text-green-400 transition">
+                About Hospital
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400 transition">
-                Services
+              <a href="/services" className="hover:text-green-400 transition">
+                Medical Services
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400 transition">
+              <a href="/departments" className="hover:text-green-400 transition">
+                Departments
+              </a>
+            </li>
+            <li>
+              <a href="/doctors" className="hover:text-green-400 transition">
+                Our Doctors
+              </a>
+            </li>
+            <li>
+              <a href="/emergency" className="hover:text-green-400 transition">
+                Emergency
+              </a>
+            </li>
+            <li>
+              <a href="/contact" className="hover:text-green-400 transition">
                 Contact
               </a>
             </li>
           </ul>
         </div>
 
-        {/* Column 3 - Social Media */}
+        {/* Column 3 - Contact Info */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
-          <p className="text-sm mb-4">
-            Stay connected with us on social media:
-          </p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-blue-400 transition">
+          <h3 className="text-lg font-semibold text-white mb-4">Contact Info</h3>
+          <div className="space-y-3 text-sm">
+            <p>📍 LAUTECH Teaching Hospital<br />Ogbomoso, Oyo State, Nigeria</p>
+            <p>📞 +234 (803) 123-4567</p>
+            <p>🚨 Emergency: +234 (803) 123-4568</p>
+            <p>✉️ info@lautechhospital.edu.ng</p>
+          </div>
+          <div className="flex space-x-4 mt-4">
+            <a href="#" className="hover:text-green-400 transition">
               <FaFacebookF size={24} />
             </a>
-            <a href="#" className="hover:text-blue-400 transition">
+            <a href="#" className="hover:text-green-400 transition">
               <FaTwitter size={24} />
             </a>
-            <a href="#" className="hover:text-blue-400 transition">
+            <a href="#" className="hover:text-green-400 transition">
               <FaLinkedinIn size={24} />
             </a>
-            <a href="#" className="hover:text-blue-400 transition">
+            <a href="#" className="hover:text-green-400 transition">
               <FaInstagram size={24} />
             </a>
           </div>
@@ -94,9 +112,9 @@ const Footer = () => {
 
         {/* Column 4 - Newsletter Subscription */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Subscribe</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">Health Updates</h3>
           <p className="text-sm mb-4">
-            Get the latest updates and news delivered to your inbox.
+            Subscribe to receive health tips, hospital news, and medical updates.
           </p>
           <form className="flex" onSubmit={handleSubscribe}>
             <input
@@ -104,12 +122,12 @@ const Footer = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-l bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 rounded-l bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
               required
             />
             <button
               type="submit"
-              className="bg-blue-500 px-5 py-2 rounded-r text-white hover:bg-blue-600 transition"
+              className="bg-green-500 px-5 py-2 rounded-r text-white hover:bg-green-600 transition"
             >
               Subscribe
             </button>
@@ -122,15 +140,12 @@ const Footer = () => {
       <div className="text-center mt-12 border-t border-gray-700 pt-6 text-sm">
         <p>
           &copy; {new Date().getFullYear()}{" "}
-          <span className="font-bold text-white">Restech</span>. All Rights
+          <span className="font-bold text-white">LAUTECH Teaching Hospital</span>. All Rights
           Reserved.
         </p>
         <p className="mt-2">
-          Designed with <span className="text-red-500">&hearts;</span> by{" "}
-          <a href="#" className="hover:text-blue-400 transition">
-           Restoration Expert Technologies
-          </a>
-          .
+          Providing healthcare with <span className="text-red-500">&hearts;</span> and{" "}
+          <span className="text-green-400">excellence</span> to our community.
         </p>
       </div>
 
@@ -138,7 +153,7 @@ const Footer = () => {
       <div className="fixed bottom-6 right-6">
         <button
           onClick={scrollToTop}
-          className="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 transition"
+          className="bg-green-500 text-white p-3 rounded-full hover:bg-green-600 transition"
           aria-label="Back to top"
         >
           <FaArrowUp size={20} />
