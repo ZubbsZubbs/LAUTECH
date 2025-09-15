@@ -6,7 +6,7 @@ export const metadata = {
   title: "LAUTECH Teaching Hospital",
   description: "Leading Teaching Hospital providing comprehensive healthcare services, medical education, and research excellence",
   icons: {
-    icon: "/r_logo.jpg", // Path to your custom favicon
+    // icon: "/r_logo.jpg", // Path to your custom favicon
   },
 };
 
