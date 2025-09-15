@@ -9,70 +9,70 @@ const testimonials = [
     position: "Chief Medical Officer",
     message:
       "LAUTECH Teaching Hospital provides exceptional patient care while training the next generation of medical professionals.",
-    image: "/s1.jpg",
+    image: "/s1.jpeg",
   },
   {
     name: "Michael Adebayo",
     position: "Patient",
     message:
       "The care I received here was outstanding. The doctors and nurses were compassionate and highly skilled.",
-    image: "/s2.jpg",
+    image: "/s2.jpeg",
   },
   {
     name: "Dr. Fatima Ibrahim",
     position: "Resident Physician",
     message:
       "Training at LAUTECH has been incredible. The mentorship and hands-on experience are world-class.",
-    image: "/s3.jpg",
+    image: "/s3.jpeg",
   },
   {
     name: "Grace Okafor",
     position: "Patient's Family",
     message:
       "During my mother's treatment, the entire team showed such dedication and care. We're forever grateful.",
-    image: "/s4.jpg",
+    image: "/s4.jpeg",
   },
   {
     name: "Dr. James Okonkwo",
     position: "Attending Physician",
     message:
       "The hospital's commitment to medical education and research excellence is truly remarkable.",
-    image: "/s5.jpg",
+    image: "/s5.jpeg",
   },
   {
     name: "Aisha Mohammed",
     position: "Patient",
     message:
       "From emergency care to follow-up, LAUTECH provided comprehensive and compassionate treatment.",
-    image: "/s6.jpg",
+    image: "/s6.jpeg",
   },
   {
     name: "Dr. Peter Williams",
     position: "Department Head",
     message:
       "Our multidisciplinary approach ensures patients receive the best possible care from our expert teams.",
-    image: "/s5.jpg",
+    image: "/s5.jpeg",
   },
   {
     name: "Blessing Nwosu",
     position: "Patient",
     message:
       "The modern facilities and advanced technology made my treatment comfortable and effective.",
-    image: "/slide_4.jpg",
+    image: "/slide_4.jpeg",
   },
   {
     name: "Dr. Amina Hassan",
     position: "Research Director",
     message:
       "LAUTECH's research programs are advancing medical knowledge and improving patient outcomes.",
-    image: "/slide_1.jpg",
+    image: "/slide_1.jpeg",
   },
   {
     name: "Chinedu Okwu",
     position: "Patient",
     message:
       "The staff's professionalism and the hospital's commitment to excellence made all the difference.",
-    image: "/slide_2.jpg",
+    image: "/slide_2.jpeg",
   },
 ];
 

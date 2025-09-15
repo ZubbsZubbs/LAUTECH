@@ -14,25 +14,25 @@ const slides = [
     textAnimation: "animate-slide-up",
   },
   {
-    image: "/s2.jpg",
+    image: "/s2.jpeg",
     text: "Compassionate Care, Advanced Medicine",
     subtext: "Your Health, Our Priority",
     textAnimation: "animate-slide-right",
   },
   {
-    image: "/s3.jpg",
+    image: "/s3.jpeg",
     text: "Training Tomorrow's Medical Leaders",
     subtext: "Education & Excellence Combined",
     textAnimation: "animate-slide-left",
   },
   {
-    image: "/s4.jpg",
+    image: "/s4.jpeg",
     text: "Innovative Healthcare Solutions",
     subtext: "Leading Medical Research & Treatment",
     textAnimation: "animate-slide-up",
   },
   {
-    image: "/s5.jpg",
+    image: "/s5.jpeg",
     text: "Your Trusted Healthcare Partner",
     subtext: "Quality Care, Every Day",
     textAnimation: "animate-slide-right",
@@ -90,21 +90,25 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-2">
-              <Image
+              {/* <Image
                 src="/c_logo.png"
                 width={64}
                 height={20}
                 alt="LAUTECH Teaching Hospital Logo"
                 className={`${isScrolled ? "brightness-0" : ""}`} // Make logo dark on white background
-              />
-              <span className={`text-lg font-bold ${isScrolled ? "text-black" : "text-white"}`}>
+              /> */}
+              <span
+                className={`text-lg font-bold ${
+                  isScrolled ? "text-black" : "text-white"
+                }`}
+              >
                 LAUTECH
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex gap-10 items-center">
+          <ul className="hidden lg:flex gap-10 items-center justify-center flex-1">
             {NAV_LINKS.map((link) => (
               <li key={link.key}>
                 <Link
@@ -121,7 +125,10 @@ const Navbar = () => {
             {/* Search Bar */}
             {isSearchOpen && (
               <li className="flex items-center">
-                <form onSubmit={handleSearch} className="flex items-center gap-2">
+                <form
+                  onSubmit={handleSearch}
+                  className="flex items-center gap-2"
+                >
                   <input
                     type="text"
                     value={searchQuery}

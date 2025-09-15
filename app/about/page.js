@@ -64,7 +64,7 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
               <img
-                src="/s2.jpg"
+                src="/s2.jpeg"
                 alt="Our Mission"
                 className="rounded-lg shadow-lg w-full"
               />

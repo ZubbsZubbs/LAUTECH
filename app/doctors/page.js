@@ -112,27 +112,26 @@ const OurDoctors = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {doctors.map((doctor, index) => (
             <div
-              key={doctor.id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
-              style={{
-                animationDelay: `${index * 0.1}s`,
-                animation: "fadeInUp 0.6s ease-out forwards"
-              }}
-            >
-              <div className="relative h-64">
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <h3 className="text-xl font-bold">{doctor.name}</h3>
-                  <p className="text-green-300 font-semibold">{doctor.specialty}</p>
-                </div>
-              </div>
-              
-              <div className="p-6">
+  key={doctor.id}
+  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 pt-8 px-4"
+  style={{
+    animationDelay: `${index * 0.1}s`,
+    animation: "fadeInUp 0.6s ease-out forwards"
+  }}
+>
+  <div className="relative h-64 flex items-center justify-center">
+    <img
+      src={doctor.image}
+      alt={doctor.name}
+      className="w-48 h-48 object-cover rounded-full shadow-lg"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-lg"></div>
+    <div className="absolute bottom-4 left-4 right-4 text-white">
+      <h3 className="text-xl font-bold">{doctor.name}</h3>
+      <p className="text-green-300 font-semibold">{doctor.specialty}</p>
+    </div>
+  </div>
+  <div className="p-6">
                 <div className="flex items-center mb-3">
                   <FaGraduationCap className="text-green-600 mr-2" />
                   <span className="text-sm text-gray-600">{doctor.qualifications}</span>

@@ -11,58 +11,58 @@ const services = [
     title: "Emergency Medicine",
     description:
       "24/7 emergency care with state-of-the-art facilities and experienced trauma specialists.",
-    icon: "/slide_1.jpg",
+    icon: "/slide_1.jpeg",
   },
   {
     id: 2,
     title: "Cardiology",
     description: "Comprehensive heart care including diagnostics, treatment, and rehabilitation.",
-    icon: "/slide_2.jpg",
+    icon: "/slide_2.jpeg",
   },
   {
     id: 3,
     title: "Pediatrics",
     description:
       "Specialized care for infants, children, and adolescents with child-friendly facilities.",
-    icon: "/slide_3.jpg",
+    icon: "/slide_3.jpeg",
   },
   {
     id: 4,
     title: "Surgery",
     description:
       "Advanced surgical procedures using minimally invasive techniques and modern equipment.",
-    icon: "/slide_4.jpg",
+    icon: "/slide_4.jpeg",
   },
   {
     id: 5,
     title: "Oncology",
     description:
       "Comprehensive cancer care including diagnosis, treatment, and supportive care.",
-    icon: "/slide_1.jpg",
+    icon: "/slide_1.jpeg",
   },
   {
     id: 6,
     title: "Radiology",
     description: "Advanced imaging services including MRI, CT scans, and ultrasound.",
-    icon: "/slide_2.jpg",
+    icon: "/slide_2.jpeg",
   },
   {
     id: 7,
     title: "Obstetrics & Gynecology",
     description: "Women's health services from prenatal care to advanced gynecological procedures.",
-    icon: "/slide_3.jpg",
+    icon: "/slide_3.jpeg",
   },
   {
     id: 8,
     title: "Neurology",
     description: "Specialized care for brain, spine, and nervous system disorders.",
-    icon: "/slide_4.jpg",
+    icon: "/slide_4.jpeg",
   },
   {
     id: 9,
     title: "Orthopedics",
     description: "Bone, joint, and muscle care including sports medicine and rehabilitation.",
-    icon: "/slide_1.jpg",
+    icon: "/slide_1.jpeg",
   },
 ];
 
