@@ -72,7 +72,8 @@ const DoctorSchema = new Schema<IDoctor>({
       'Gynecology',
       'Urology',
       'Anesthesiology',
-      'General Surgery'
+      'General Surgery',
+      'Microbiology'
     ]
   },
   specialization: {

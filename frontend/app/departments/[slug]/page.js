@@ -472,10 +472,10 @@ export default function DepartmentDetailPage() {
                 appointments: apiDept.appointments || 0,
                 successRate: 98, // Default value
                 yearsExperience: 15, // Default value
-                facilities: apiDept.facilities?.length || 0
+                facilities: (apiDept.facilities && apiDept.facilities.length > 0) ? apiDept.facilities.length : 4
               },
               expertTeam: [], // Will be populated by separate API call
-              facilities: apiDept.facilities?.map((facility, index) => {
+              facilities: (apiDept.facilities && apiDept.facilities.length > 0) ? apiDept.facilities.map((facility, index) => {
                 // Medical facility images from Unsplash (working URLs)
                 const facilityImages = [
                   'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop',
@@ -493,15 +493,99 @@ export default function DepartmentDetailPage() {
                   image: facility.image || facilityImages[index % facilityImages.length],
                   equipment: facility.equipment || []
                 };
-              }) || [],
-              procedures: apiDept.procedures?.map(procedure => ({
+              }) : [
+                {
+                  name: "Advanced Laboratory",
+                  description: "State-of-the-art diagnostic and research laboratory equipped with modern technology",
+                  image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop',
+                  equipment: []
+                },
+                {
+                  name: "Patient Care Units",
+                  description: "Comfortable and well-equipped patient rooms with 24/7 nursing care",
+                  image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop',
+                  equipment: []
+                },
+                {
+                  name: "Diagnostic Center",
+                  description: "Comprehensive diagnostic services with latest medical imaging technology",
+                  image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop',
+                  equipment: []
+                },
+                {
+                  name: "Treatment Rooms",
+                  description: "Specialized treatment rooms designed for optimal patient comfort and care",
+                  image: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&h=400&fit=crop',
+                  equipment: []
+                }
+              ],
+              procedures: (apiDept.procedures && apiDept.procedures.length > 0) ? apiDept.procedures.map(procedure => ({
                 name: procedure.name,
                 description: procedure.description,
                 duration: '30-60 minutes', // Default
                 preparation: 'No special preparation needed', // Default
                 cost: procedure.cost || 'Contact for pricing'
-              })) || [],
-              conditionsTreated: apiDept.conditions?.map(condition => condition.name) || [],
+              })) : [
+                {
+                  name: "Diagnostic Testing",
+                  description: "Comprehensive diagnostic procedures using advanced medical equipment",
+                  duration: "30-60 minutes",
+                  preparation: "Fasting may be required for some tests",
+                  cost: "Contact for pricing"
+                },
+                {
+                  name: "Consultation Services",
+                  description: "Expert medical consultation and treatment planning",
+                  duration: "30-45 minutes",
+                  preparation: "Bring all relevant medical records",
+                  cost: "₦15,000 - ₦25,000"
+                },
+                {
+                  name: "Therapeutic Procedures",
+                  description: "Specialized treatment procedures tailored to patient needs",
+                  duration: "45-90 minutes",
+                  preparation: "Pre-procedure instructions will be provided",
+                  cost: "Contact for pricing"
+                },
+                {
+                  name: "Follow-up Care",
+                  description: "Comprehensive follow-up and ongoing treatment monitoring",
+                  duration: "20-30 minutes",
+                  preparation: "No special preparation needed",
+                  cost: "₦10,000 - ₦15,000"
+                },
+                {
+                  name: "Emergency Services",
+                  description: "24/7 emergency medical care and urgent interventions",
+                  duration: "Varies by case",
+                  preparation: "No preparation needed",
+                  cost: "Contact for pricing"
+                },
+                {
+                  name: "Preventive Care",
+                  description: "Preventive screening and health maintenance services",
+                  duration: "30-45 minutes",
+                  preparation: "Fasting may be required",
+                  cost: "₦5,000 - ₦20,000"
+                }
+              ],
+              conditionsTreated: (apiDept.conditions && apiDept.conditions.length > 0) ? apiDept.conditions.map(condition => condition.name) : [
+                "Acute infections and inflammatory conditions",
+                "Chronic disease management",
+                "Post-surgical complications",
+                "Diagnostic uncertainty cases",
+                "Preventive health screenings",
+                "Infectious disease outbreaks",
+                "Metabolic disorders",
+                "Immunological conditions",
+                "Environmental health issues",
+                "Occupational health concerns",
+                "Nutritional deficiencies",
+                "Genetic disorders",
+                "Autoimmune conditions",
+                "Allergic reactions",
+                "Toxicological emergencies"
+              ],
               achievements: [
                 'JCI Accredited Care',
                 'Patient Satisfaction Score: 98%',
@@ -589,6 +673,18 @@ export default function DepartmentDetailPage() {
           }));
           
           setExpertTeam(transformedDoctors);
+          
+          // Update the statistics count with actual doctors fetched
+          setDepartment(prev => ({
+            ...prev,
+            expandedDetails: {
+              ...prev.expandedDetails,
+              statistics: {
+                ...prev.expandedDetails.statistics,
+                doctors: transformedDoctors.length
+              }
+            }
+          }));
         }
       } catch (err) {
         console.error('Error fetching doctors:', err);
@@ -596,7 +692,7 @@ export default function DepartmentDetailPage() {
     };
 
     fetchDoctors();
-  }, [department]);
+  }, [department?.name]);
 
   // Fetch individual doctor profile
   const fetchDoctorProfile = async (doctorId) => {
@@ -716,36 +812,36 @@ export default function DepartmentDetailPage() {
             {/* Department Title - Centered */}
             <div className="text-center mb-8">
               <div className="flex items-center justify-center mb-4">
-                <div className="p-4 rounded-2xl bg-white/20 backdrop-blur-sm mr-6">
-                  <IconComponent className="text-5xl text-white" />
-                </div>
+                  <div className="p-4 rounded-2xl bg-white/20 backdrop-blur-sm mr-6">
+                    <IconComponent className="text-5xl text-white" />
+                  </div>
                 <h1 className="text-5xl md:text-6xl font-bold text-white">{department.name}</h1>
               </div>
-              <p className="text-xl text-white/90">Department Head: {department.head}</p>
-            </div>
-            
+                    <p className="text-xl text-white/90">Department Head: {department.head}</p>
+                </div>
+                
             {/* Content Section */}
             <div className="max-w-4xl mx-auto text-center">
               <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                {details.overview}
-              </p>
-              
+                  {details.overview}
+                </p>
+                
               <div className="flex flex-wrap gap-4 justify-center">
-                <button
-                  onClick={() => setShowAppointmentModal(true)}
-                  className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  <FaCalendarAlt className="inline mr-2" />
-                  Schedule Appointment
-                </button>
-                <button
-                  onClick={() => setShowContactModal(true)}
-                  className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 transform hover:scale-105"
-                >
+                  <button
+                    onClick={() => setShowAppointmentModal(true)}
+                    className="bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <FaCalendarAlt className="inline mr-2" />
+                    Schedule Appointment
+                  </button>
+                  <button
+                    onClick={() => setShowContactModal(true)}
+                    className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 transform hover:scale-105"
+                  >
                   <Phone className="inline mr-2" size={20} />
-                  Contact Us
-                </button>
-              </div>
+                    Contact Us
+                  </button>
+                </div>
             </div>
           </div>
         </div>
@@ -1009,9 +1105,9 @@ export default function DepartmentDetailPage() {
                       <div className="text-center text-green-300">
                         <h3 className="text-2xl font-bold mb-3 text-green-200">{facility.name}</h3>
                         <p className="text-green-300 text-base leading-relaxed">{facility.description}</p>
-                      </div>
-                    </div>
-                  </div>
+                            </div>
+                          </div>
+                        </div>
                 ))}
               </div>
             </div>
@@ -1035,24 +1131,24 @@ export default function DepartmentDetailPage() {
                   Procedures & Treatments
                 </h2>
                 <ul className="space-y-6">
-                  {details.procedures.map((procedure, index) => (
+              {details.procedures.map((procedure, index) => (
                     <li key={index} className="flex items-start group cursor-pointer pb-6 border-b border-gray-200 last:border-0" onClick={() => setExpandedProcedure(expandedProcedure === index ? null : index)}>
                       <FaChevronRight className={`text-blue-600 mt-1 mr-3 flex-shrink-0 transition-transform ${expandedProcedure === index ? 'rotate-90' : ''}`} />
                       <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{procedure.name}</h3>
+                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{procedure.name}</h3>
                         <p className="text-sm text-gray-600 mt-2">{procedure.description}</p>
-                        {expandedProcedure === index && (
+                  {expandedProcedure === index && (
                           <div className="mt-4 pl-4 border-l-4 border-blue-200 space-y-2 animate-fadeIn">
                             <p className="text-sm text-gray-700"><span className="font-semibold">Duration:</span> {procedure.duration}</p>
                             <p className="text-sm text-gray-700"><span className="font-semibold">Preparation:</span> {procedure.preparation}</p>
                             <p className="text-sm text-gray-700"><span className="font-semibold">Cost:</span> <span className="text-green-600 font-bold">{procedure.cost}</span></p>
-                          </div>
-                        )}
-                      </div>
+                    </div>
+                  )}
+                </div>
                     </li>
-                  ))}
+              ))}
                 </ul>
-              </div>
+      </div>
 
               {/* Conditions We Treat - Right Side */}
               <div>
@@ -1061,7 +1157,7 @@ export default function DepartmentDetailPage() {
                   Conditions We Treat
                 </h2>
                 <ul className="space-y-4">
-                  {details.conditionsTreated.map((condition, index) => (
+              {details.conditionsTreated.map((condition, index) => (
                     <li key={index} className="flex items-center group pb-4 border-b border-gray-200 last:border-0">
                       <FaCheckCircle className="text-green-600 mr-3 flex-shrink-0 text-lg group-hover:scale-110 transition-transform" />
                       <span className="text-gray-900 font-medium text-base">{condition}</span>
@@ -1124,37 +1220,95 @@ export default function DepartmentDetailPage() {
         </div>
       </div>
 
-      {/* Forms Section */}
+      {/* Research and Education Section */}
       <div className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Download Forms</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">Access and download the forms you need for your visit</p>
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Research & Education</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">Advancing medical knowledge through cutting-edge research and comprehensive training programs</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {details.forms.map((form, index) => {
-                const FormIcon = form.icon;
-                return (
-                  <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div className="flex items-center mb-4">
-                      <div className="p-3 bg-red-50 rounded-xl mr-4">
-                        <FormIcon className="text-red-500 text-2xl" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+              {/* Research Section */}
+              <div>
+                <div className="flex items-center mb-8 border-b-2 border-blue-600 pb-4">
+                  <div className="p-3 bg-blue-100 rounded-xl mr-4">
+                    <FaMicroscope className="text-blue-600 text-2xl" />
                       </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Research Programs</h3>
+                </div>
+                <ul className="space-y-5">
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-blue-600 mt-1 mr-3 flex-shrink-0" />
                       <div>
-                        <h3 className="font-bold text-gray-900">{form.name}</h3>
-                        <p className="text-sm text-gray-500">{form.type} • {form.size}</p>
+                      <h4 className="font-semibold text-gray-900 mb-1">Clinical Trials</h4>
+                      <p className="text-sm text-gray-600">Conducting innovative studies on new cardiac treatments and medications</p>
                       </div>
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-blue-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Cardiovascular Research</h4>
+                      <p className="text-sm text-gray-600">Advanced studies in heart disease prevention and treatment</p>
                     </div>
-                    <p className="text-gray-600 text-sm mb-4">{form.description}</p>
-                    <button className="w-full bg-red-600 text-white py-3 px-4 rounded-xl hover:bg-red-700 transition-colors font-semibold flex items-center justify-center">
-                      <FaDownload className="mr-2" />
-                      Download
-                    </button>
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-blue-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Published Studies</h4>
+                      <p className="text-sm text-gray-600">Regular contributions to leading medical journals</p>
                   </div>
-                );
-              })}
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-blue-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">International Collaborations</h4>
+                      <p className="text-sm text-gray-600">Partnerships with renowned research institutions worldwide</p>
+            </div>
+                  </li>
+                </ul>
+          </div>
+
+              {/* Education Section */}
+              <div>
+                <div className="flex items-center mb-8 border-b-2 border-green-600 pb-4">
+                  <div className="p-3 bg-green-100 rounded-xl mr-4">
+                    <FaGraduationCap className="text-green-600 text-2xl" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900">Education & Training</h3>
+                </div>
+                <ul className="space-y-5">
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-green-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Medical Student Rotation</h4>
+                      <p className="text-sm text-gray-600">Comprehensive clinical training for medical students</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-green-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Residency Programs</h4>
+                      <p className="text-sm text-gray-600">Specialized training for cardiology residents</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-green-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Fellowship Training</h4>
+                      <p className="text-sm text-gray-600">Advanced fellowship programs in interventional cardiology</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start pb-5 border-b border-gray-200 last:border-0">
+                    <FaCheckCircle className="text-green-600 mt-1 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-1">Continuing Education</h4>
+                      <p className="text-sm text-gray-600">Regular workshops and seminars for medical professionals</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

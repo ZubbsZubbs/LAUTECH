@@ -6,30 +6,19 @@ import Link from 'next/link';
 import {
   Calendar,
   Clock,
-  User,
-  Tag,
   Search,
-  Filter,
   ArrowRight,
   Newspaper,
-  Megaphone,
   Microscope,
   Heart,
   Users,
-  Award,
-  ChevronDown,
-  ChevronUp,
-  Mail,
-  Share2,
-  Bookmark
+  Award
 } from 'lucide-react';
 
 const NewsPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('latest');
-  const [showFilters, setShowFilters] = useState(false);
-  const [bookmarkedArticles, setBookmarkedArticles] = useState(new Set());
 
   // News categories
   const categories = [
@@ -208,18 +197,6 @@ const NewsPage = () => {
   const featuredNews = newsData.filter(article => article.featured);
   const regularNews = filteredNews.filter(article => !article.featured);
 
-  const toggleBookmark = (articleId) => {
-    setBookmarkedArticles(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(articleId)) {
-        newSet.delete(articleId);
-      } else {
-        newSet.add(articleId);
-      }
-      return newSet;
-    });
-  };
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -232,56 +209,27 @@ const NewsPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-green-900 via-green-800 to-green-700 text-white py-24 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative bg-gray-900 text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8">
-              <Newspaper className="w-5 h-5" />
-              <span className="text-sm font-semibold">Latest Updates</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-green-200 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
               News & Events
             </h1>
-            <p className="text-xl text-green-100 max-w-4xl mx-auto mb-12 leading-relaxed">
-              Stay updated with the latest news, medical breakthroughs, events, and announcements from LAUTECH Teaching Hospital. 
-              Discover our innovations, research findings, and community impact.
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-8">
+              Stay updated with the latest news, medical breakthroughs, and announcements from LAUTECH Teaching Hospital.
             </p>
             
-            {/* Enhanced Search Bar */}
-            <div className="max-w-3xl mx-auto">
-              <div className="relative group">
-                <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6 group-focus-within:text-green-500 transition-colors" />
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Search news, articles, events, and medical breakthroughs..."
+                  placeholder="Search news and articles..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-16 pr-6 py-5 rounded-2xl border-0 text-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-green-300 focus:outline-none shadow-2xl text-lg"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
                 />
-                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors">
-                  Search
-                </button>
-              </div>
-              
-              {/* Quick Search Tags */}
-              <div className="flex flex-wrap justify-center gap-3 mt-6">
-                {['Cardiology', 'Research', 'Events', 'Technology', 'Community'].map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => setSearchTerm(tag)}
-                    className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm font-medium hover:bg-white/30 transition-colors"
-                  >
-                    {tag}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
@@ -290,41 +238,32 @@ const NewsPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Enhanced Sidebar */}
-          <div className="lg:w-1/4 space-y-8">
+          {/* Sidebar */}
+          <div className="lg:w-1/4">
             {/* Categories */}
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-              <div className="flex items-center space-x-3 mb-8">
-                <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                  <Tag className="w-5 h-5 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Categories</h3>
-              </div>
-              <div className="space-y-3">
+            <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Categories</h3>
+              <div className="space-y-2">
                 {categories.map((category) => {
                   const Icon = category.icon;
                   return (
                     <button
                       key={category.id}
                       onClick={() => setActiveCategory(category.id)}
-                      className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all duration-300 group ${
+                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
                         activeCategory === category.id
-                          ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-700 border-2 border-green-200 shadow-lg transform scale-105'
-                          : 'text-gray-600 hover:bg-gray-50 hover:shadow-md hover:scale-105'
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-600 hover:bg-gray-100'
                       }`}
                     >
-                      <div className="flex items-center space-x-4">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                          activeCategory === category.id ? 'bg-green-200' : 'bg-gray-100 group-hover:bg-gray-200'
-                        }`}>
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <span className="font-semibold text-lg">{category.label}</span>
+                      <div className="flex items-center space-x-3">
+                        <Icon className="w-4 h-4" />
+                        <span className="font-medium text-sm">{category.label}</span>
                       </div>
-                      <span className={`text-sm px-3 py-1 rounded-full font-bold transition-colors ${
+                      <span className={`text-xs px-2 py-1 rounded-full ${
                         activeCategory === category.id 
-                          ? 'bg-green-200 text-green-800' 
-                          : 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+                          ? 'bg-white text-gray-900' 
+                          : 'bg-gray-200 text-gray-600'
                       }`}>
                         {category.count}
                       </span>
@@ -333,231 +272,77 @@ const NewsPage = () => {
                 })}
               </div>
             </div>
-
-            {/* Trending Articles */}
-            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
-              <div className="flex items-center space-x-3 mb-8">
-                <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-                  <Award className="w-5 h-5 text-orange-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Trending</h3>
-              </div>
-              <div className="space-y-6">
-                {newsData.slice(0, 3).map((article, index) => (
-                  <div key={article.id} className="flex space-x-4 group cursor-pointer">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-                        {index + 1}
-                      </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-semibold text-gray-900 group-hover:text-green-600 transition-colors line-clamp-2">
-                        {article.title}
-                      </h4>
-                      <div className="flex items-center space-x-2 mt-2 text-xs text-gray-500">
-                        <span>{article.views} views</span>
-                        <span>•</span>
-                        <span>{article.likes} likes</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Newsletter Subscription */}
-            <div className="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 rounded-3xl shadow-xl p-8 border border-gray-100">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <Mail className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Stay Updated</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Get the latest news, medical breakthroughs, and hospital updates delivered to your inbox.
-                </p>
-                <div className="space-y-4">
-                  <input
-                    type="email"
-                    placeholder="Enter your email address"
-                    className="w-full px-6 py-4 rounded-2xl border border-gray-300 focus:ring-4 focus:ring-green-300 focus:border-transparent text-center"
-                  />
-                  <button className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-4 px-6 rounded-2xl font-bold text-lg hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    Subscribe Now
-                  </button>
-                  <p className="text-xs text-gray-500">
-                    Join 5,000+ subscribers. Unsubscribe anytime.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl shadow-xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-6">Hospital Stats</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Total Articles</span>
-                  <span className="text-2xl font-bold text-green-400">24</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Monthly Readers</span>
-                  <span className="text-2xl font-bold text-blue-400">15K+</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Research Papers</span>
-                  <span className="text-2xl font-bold text-purple-400">65+</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">Events This Month</span>
-                  <span className="text-2xl font-bold text-orange-400">8</span>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Enhanced Main Content */}
+          {/* Main Content */}
           <div className="lg:w-3/4">
-            {/* Enhanced Filter and Sort Controls */}
-            <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100">
-              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-                <div className="flex flex-wrap items-center gap-4">
-                  <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-green-50 to-blue-50 text-gray-700 rounded-2xl hover:from-green-100 hover:to-blue-100 transition-all duration-300 border border-green-200"
-                  >
-                    <Filter className="w-5 h-5" />
-                    <span className="font-semibold">Filters & Sort</span>
-                    {showFilters ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                  </button>
-                  
-                  {showFilters && (
-                    <div className="flex items-center space-x-4">
-                      <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        className="px-6 py-3 border border-gray-300 rounded-2xl focus:ring-4 focus:ring-green-300 focus:border-transparent font-semibold"
-                      >
-                        <option value="latest">📅 Latest First</option>
-                        <option value="oldest">📅 Oldest First</option>
-                        <option value="popular">🔥 Most Popular</option>
-                        <option value="trending">⭐ Trending</option>
-                      </select>
-                    </div>
-                  )}
+            {/* Filter Controls */}
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6 border border-gray-200">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="text-sm font-medium text-gray-700">
+                  {filteredNews.length} article{filteredNews.length !== 1 ? 's' : ''}
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <div className="text-lg font-semibold text-gray-700">
-                    <span className="text-green-600">{filteredNews.length}</span> article{filteredNews.length !== 1 ? 's' : ''} found
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
-                    <Clock className="w-4 h-4" />
-                    <span>Updated 2 hours ago</span>
-                  </div>
-                </div>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-sm"
+                >
+                  <option value="latest">Latest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="trending">Trending</option>
+                </select>
               </div>
             </div>
 
-            {/* Enhanced Featured News */}
+            {/* Featured News */}
             {activeCategory === 'all' && featuredNews.length > 0 && (
-              <div className="mb-16">
-                <div className="flex items-center space-x-4 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center">
-                    <Award className="w-6 h-6 text-white" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-gray-900">Featured News</h2>
-                  <div className="flex-1 h-px bg-gradient-to-r from-gray-300 to-transparent"></div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="mb-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {featuredNews.map((article) => (
-                    <article key={article.id} className="group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
-                      <div className="relative h-80 overflow-hidden">
+                    <article key={article.id} className="group bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-200">
+                      <div className="relative h-48 overflow-hidden">
                         <Image
                           src={article.image}
                           alt={article.title}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                          className="object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        
-                        {/* Featured Badge */}
-                        <div className="absolute top-6 left-6">
-                          <span className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm font-bold rounded-full shadow-lg">
-                            ⭐ Featured
-                          </span>
-                        </div>
-                        
-                        {/* Bookmark Button */}
-                        <button
-                          onClick={() => toggleBookmark(article.id)}
-                          className="absolute top-6 right-6 p-3 bg-white/90 backdrop-blur-sm rounded-2xl hover:bg-white transition-all duration-300 shadow-lg"
-                        >
-                          <Bookmark className={`w-5 h-5 ${bookmarkedArticles.has(article.id) ? 'text-green-600 fill-current' : 'text-gray-400'}`} />
-                        </button>
-                        
-                        {/* Category Badge */}
-                        <div className="absolute bottom-6 left-6">
-                          <span className="px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded-full">
+                        <div className="absolute top-3 left-3">
+                          <span className="px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded">
                             {categories.find(c => c.id === article.category)?.label}
                           </span>
                         </div>
                       </div>
                       
-                      <div className="p-8">
-                        <div className="flex items-center space-x-6 text-sm text-gray-500 mb-4">
-                          <div className="flex items-center space-x-2">
-                            <Calendar className="w-4 h-4" />
-                            <span className="font-medium">{formatDate(article.publishDate)}</span>
+                      <div className="p-6">
+                        <div className="flex items-center space-x-4 text-xs text-gray-500 mb-3">
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="w-3 h-3" />
+                            <span>{formatDate(article.publishDate)}</span>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <Clock className="w-4 h-4" />
-                            <span className="font-medium">{article.readTime}</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <User className="w-4 h-4" />
-                            <span className="font-medium">{article.views} views</span>
+                          <div className="flex items-center space-x-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{article.readTime}</span>
                           </div>
                         </div>
                         
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-green-600 transition-colors">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
                           {article.title}
                         </h3>
                         
-                        <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
+                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                           {article.excerpt}
                         </p>
                         
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {article.tags.slice(0, 3).map((tag, index) => (
-                            <span key={index} className="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Image
-                              src={article.authorImage}
-                              alt={article.author}
-                              width={40}
-                              height={40}
-                              className="rounded-full border-2 border-green-200"
-                            />
-                            <div>
-                              <p className="text-sm font-bold text-gray-900">{article.author}</p>
-                              <p className="text-xs text-gray-500">{article.authorRole}</p>
-                            </div>
-                          </div>
-                          
-                          <Link href={`/news/${article.id}`}>
-                            <button className="flex items-center space-x-2 bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                              <span>Read More</span>
-                              <ArrowRight className="w-4 h-4" />
-                            </button>
-                          </Link>
-                        </div>
+                        <Link href={`/news/${article.id}`}>
+                          <button className="inline-flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-black transition-colors text-sm">
+                            <span>Read More</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </Link>
                       </div>
                     </article>
                   ))}
@@ -565,112 +350,58 @@ const NewsPage = () => {
               </div>
             )}
 
-            {/* Enhanced Regular News */}
+            {/* Regular News */}
             <div>
-              <div className="flex items-center space-x-4 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                  <Newspaper className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900">
-                  {activeCategory === 'all' ? 'Latest News' : categories.find(c => c.id === activeCategory)?.label}
-                </h2>
-                <div className="flex-1 h-px bg-gradient-to-r from-gray-300 to-transparent"></div>
-              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                {activeCategory === 'all' ? 'Latest News' : categories.find(c => c.id === activeCategory)?.label}
+              </h2>
               
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {regularNews.map((article, index) => (
-                  <article key={article.id} className="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-1">
-                    <div className="flex flex-col lg:flex-row">
-                      <div className="lg:w-1/3">
-                        <div className="relative h-64 lg:h-full">
+                  <article key={article.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-200">
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="sm:w-1/3">
+                        <div className="relative h-48 sm:h-full">
                           <Image
                             src={article.image}
                             alt={article.title}
                             fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="object-cover"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                          
-                          {/* Category Badge */}
-                          <div className="absolute top-4 left-4">
-                            <span className="px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded-full">
+                          <div className="absolute top-3 left-3">
+                            <span className="px-2 py-1 bg-gray-900 text-white text-xs font-medium rounded">
                               {categories.find(c => c.id === article.category)?.label}
                             </span>
                           </div>
-                          
-                          {/* Bookmark Button */}
-                          <button
-                            onClick={() => toggleBookmark(article.id)}
-                            className="absolute top-4 right-4 p-2 bg-white/90 backdrop-blur-sm rounded-xl hover:bg-white transition-all duration-300"
-                          >
-                            <Bookmark className={`w-4 h-4 ${bookmarkedArticles.has(article.id) ? 'text-green-600 fill-current' : 'text-gray-400'}`} />
-                          </button>
                         </div>
                       </div>
                       
-                      <div className="lg:w-2/3 p-8">
-                        <div className="flex items-center space-x-6 text-sm text-gray-500 mb-4">
-                          <div className="flex items-center space-x-2">
-                            <Calendar className="w-4 h-4" />
-                            <span className="font-medium">{formatDate(article.publishDate)}</span>
+                      <div className="sm:w-2/3 p-6">
+                        <div className="flex items-center space-x-4 text-xs text-gray-500 mb-3">
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="w-3 h-3" />
+                            <span>{formatDate(article.publishDate)}</span>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <Clock className="w-4 h-4" />
-                            <span className="font-medium">{article.readTime}</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <User className="w-4 h-4" />
-                            <span className="font-medium">{article.views} views</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Heart className="w-4 h-4" />
-                            <span className="font-medium">{article.likes} likes</span>
+                          <div className="flex items-center space-x-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{article.readTime}</span>
                           </div>
                         </div>
                         
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-green-600 transition-colors">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
                           {article.title}
                         </h3>
                         
-                        <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
+                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                           {article.excerpt}
                         </p>
                         
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {article.tags.map((tag, index) => (
-                            <span key={index} className="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium hover:bg-gray-200 transition-colors">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Image
-                              src={article.authorImage}
-                              alt={article.author}
-                              width={40}
-                              height={40}
-                              className="rounded-full border-2 border-green-200"
-                            />
-                            <div>
-                              <p className="text-sm font-bold text-gray-900">{article.author}</p>
-                              <p className="text-xs text-gray-500">{article.authorRole}</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center space-x-3">
-                            <button className="p-2 hover:bg-gray-100 rounded-xl transition-colors group">
-                              <Share2 className="w-5 h-5 text-gray-400 group-hover:text-green-600" />
-                            </button>
-                            <Link href={`/news/${article.id}`}>
-                              <button className="flex items-center space-x-2 bg-gradient-to-r from-green-600 to-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:from-green-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                                <span>Read More</span>
-                                <ArrowRight className="w-4 h-4" />
-                              </button>
-                            </Link>
-                          </div>
-                        </div>
+                        <Link href={`/news/${article.id}`}>
+                          <button className="inline-flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-black transition-colors text-sm">
+                            <span>Read More</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </article>
@@ -678,26 +409,24 @@ const NewsPage = () => {
               </div>
             </div>
 
-            {/* Enhanced No Results */}
+            {/* No Results */}
             {filteredNews.length === 0 && (
-              <div className="text-center py-20">
-                <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl flex items-center justify-center mx-auto mb-8">
-                  <Newspaper className="w-12 h-12 text-gray-400" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">No articles found</h3>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                  We couldn't find any articles matching your search criteria. Try adjusting your filters or search terms.
+              <div className="text-center py-16">
+                <Newspaper className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 mb-2">No articles found</h3>
+                <p className="text-gray-600 mb-6">
+                  Try adjusting your filters or search terms.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <button
                     onClick={() => setSearchTerm('')}
-                    className="px-6 py-3 bg-green-600 text-white rounded-2xl font-semibold hover:bg-green-700 transition-colors"
+                    className="px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-black transition-colors"
                   >
                     Clear Search
                   </button>
                   <button
                     onClick={() => setActiveCategory('all')}
-                    className="px-6 py-3 bg-gray-100 text-gray-700 rounded-2xl font-semibold hover:bg-gray-200 transition-colors"
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
                   >
                     Show All Articles
                   </button>
@@ -708,44 +437,25 @@ const NewsPage = () => {
         </div>
       </div>
 
-      {/* Enhanced Footer CTA */}
-      <div className="bg-gradient-to-r from-green-900 via-green-800 to-green-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Stay Connected with LAUTECH
+      {/* Newsletter CTA */}
+      <div className="bg-gray-900 text-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Stay Updated
           </h2>
-          <p className="text-xl text-green-100 max-w-3xl mx-auto mb-12">
-            Get the latest medical news, research breakthroughs, and hospital updates delivered directly to your inbox.
+          <p className="text-gray-300 mb-8">
+            Get the latest medical news and hospital updates delivered to your inbox.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-xl mx-auto">
             <input
               type="email"
-              placeholder="Enter your email address"
-              className="flex-1 px-6 py-4 rounded-2xl border-0 text-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-green-300 focus:outline-none text-lg"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-lg border border-gray-700 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white focus:outline-none"
             />
-            <button className="bg-white text-green-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
-              Subscribe Now
+            <button className="bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+              Subscribe
             </button>
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-8 mt-12">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-300">5,000+</div>
-              <div className="text-green-200">Subscribers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-300">24</div>
-              <div className="text-green-200">Articles Monthly</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-300">15K+</div>
-              <div className="text-green-200">Monthly Readers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-300">98%</div>
-              <div className="text-green-200">Satisfaction Rate</div>
-            </div>
           </div>
         </div>
       </div>

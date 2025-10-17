@@ -174,18 +174,6 @@ const Dashboard = () => {
               </p>
             )}
           </div>
-          <button
-            onClick={fetchDashboardData}
-            disabled={isLoading}
-            className="flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
-          >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <RefreshCw className="w-4 h-4" />
-            )}
-            <span>Refresh</span>
-          </button>
         </div>
       </div>
 

@@ -48,7 +48,8 @@ const validateDoctor = [
         'Gynecology',
         'Urology',
         'Anesthesiology',
-        'General Surgery'
+        'General Surgery',
+        'Microbiology'
     ]).withMessage('Valid department is required'),
     (0, express_validator_1.body)('specialization').trim().notEmpty().withMessage('Specialization is required'),
     (0, express_validator_1.body)('qualifications').trim().notEmpty().withMessage('Qualifications are required'),

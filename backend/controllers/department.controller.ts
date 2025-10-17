@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import Department from '../models/Department';
 import Patient from '../models/Patient';
+import Doctor from '../models/Doctor';
 import asyncHandler from '../utils/asyncHandler';
 import CustomError from '../utils/customError';
 
@@ -37,7 +38,7 @@ export const getAllDepartments = asyncHandler(async (req: Request, res: Response
 
   const total = await Department.countDocuments(filter);
 
-  // Calculate real-time patient counts from Patient collection
+  // Calculate real-time patient and doctor counts
   const departmentsWithRealCounts = await Promise.all(
     departments.map(async (dept) => {
       const patientCount = await Patient.countDocuments({ 
@@ -45,8 +46,14 @@ export const getAllDepartments = asyncHandler(async (req: Request, res: Response
         status: { $ne: 'discharged' } 
       });
       
+      const doctorCount = await Doctor.countDocuments({
+        department: dept.name,
+        status: 'active'
+      });
+      
       const deptObj = dept.toObject();
       deptObj.patients = patientCount; // Override with real count
+      deptObj.doctors = doctorCount > 0 ? Array(doctorCount).fill(null) : []; // Create array with length
       return deptObj;
     })
   );
@@ -76,14 +83,20 @@ export const getDepartmentById = asyncHandler(async (req: Request, res: Response
     throw new CustomError('Department not found', 404);
   }
 
-  // Calculate real-time patient count
+  // Calculate real-time patient and doctor counts
   const patientCount = await Patient.countDocuments({ 
     department: department.name, 
     status: { $ne: 'discharged' } 
   });
 
+  const doctorCount = await Doctor.countDocuments({
+    department: department.name,
+    status: 'active'
+  });
+
   const deptObj = department.toObject();
   deptObj.patients = patientCount; // Override with real count
+  deptObj.doctors = doctorCount > 0 ? Array(doctorCount).fill(null) : []; // Create array with length
 
   res.status(200).json({
     success: true,
@@ -101,16 +114,21 @@ export const getDepartmentBySlug = asyncHandler(async (req: Request, res: Respon
     throw new CustomError('Department not found', 404);
   }
 
-  // Calculate real-time patient count
+  // Calculate real-time patient and doctor counts
   const patientCount = await Patient.countDocuments({ 
     department: department.name, 
     status: { $ne: 'discharged' } 
   });
 
+  const doctorCount = await Doctor.countDocuments({
+    department: department.name,
+    status: 'active'
+  });
+
   // Clean up the department data to ensure arrays are properly formatted
   const cleanedDepartment = {
     ...department.toObject(),
-    doctors: Array.isArray(department.doctors) ? department.doctors : [],
+    doctors: doctorCount > 0 ? Array(doctorCount).fill(null) : [], // Create array with length
     facilities: Array.isArray(department.facilities) ? department.facilities : [],
     procedures: Array.isArray(department.procedures) ? department.procedures : [],
     conditions: Array.isArray(department.conditions) ? department.conditions : [],

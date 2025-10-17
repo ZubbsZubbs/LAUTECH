@@ -451,20 +451,20 @@ export default function StudentDashboard() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-        {/* Modern Header */}
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border-b border-gray-200/50 dark:border-gray-700/50 relative z-10 transition-colors duration-300">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        {/* Header */}
+        <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 relative z-10 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <GraduationCap className="w-6 h-6 text-white" />
+                <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                     Student Dashboard
                   </h1>
-                  <p className="text-gray-600 dark:text-gray-300 mt-1">Welcome back, {user?.firstName || 'Student'}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Welcome back, {user?.firstName || 'Student'}</p>
                 </div>
               </div>
               
@@ -473,9 +473,9 @@ export default function StudentDashboard() {
                 <div className="relative z-20">
                   <button
                     onClick={() => setShowNotifications(!showNotifications)}
-                    className="relative p-3 bg-white/60 dark:bg-gray-700/60 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200"
+                    className="relative p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
-                    <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    <Bell className="w-5 h-5" />
                     {notifications.length > 0 && (
                       <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                         {notifications.length}
@@ -512,28 +512,27 @@ export default function StudentDashboard() {
                 </div>
 
                 {/* Profile Section */}
-                <div className="flex items-center space-x-3 bg-white/60 dark:bg-gray-700/60 rounded-xl px-4 py-2 shadow-sm border border-gray-200/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
+                <div className="flex items-center space-x-3 px-4 py-2">
+                  <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                     {getUserInitials(user)}
                   </div>
                   <div className="hidden sm:block">
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{user?.firstName} {user?.lastName}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                 </div>
                 
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-2">
                   <button 
                     onClick={() => setShowSettings(!showSettings)}
-                    className="p-3 bg-white/60 dark:bg-gray-700/60 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-600/50 hover:bg-white/80 dark:hover:bg-gray-700/80 transition-all duration-200"
+                    className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
-                    <Settings className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    <Settings className="w-5 h-5" />
                   </button>
                   <button
                     onClick={() => router.push('/schools/nursing/apply')}
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2"
+                    className="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-black transition-colors flex items-center space-x-2"
                   >
                     <Plus className="w-4 h-4" />
                     <span className="hidden sm:inline">New Application</span>
@@ -549,7 +548,7 @@ export default function StudentDashboard() {
           <div className="flex gap-6">
             {/* Settings Sidebar */}
             <div className={`${showSettings ? 'w-80' : 'w-0'} transition-all duration-300 overflow-hidden`}>
-              <div className="settings-panel bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 transition-colors duration-300">
+              <div className="settings-panel bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Settings</h3>
                   <button
@@ -571,7 +570,7 @@ export default function StudentDashboard() {
                           type="checkbox"
                           checked={settings.emailNotifications}
                           onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-gray-900 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-gray-900"
                         />
                       </label>
                       <label className="flex items-center justify-between">
@@ -580,7 +579,7 @@ export default function StudentDashboard() {
                           type="checkbox"
                           checked={settings.smsNotifications}
                           onChange={(e) => setSettings({...settings, smsNotifications: e.target.checked})}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-gray-900 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-gray-900"
                         />
                       </label>
                       <label className="flex items-center justify-between">
@@ -589,7 +588,7 @@ export default function StudentDashboard() {
                           type="checkbox"
                           checked={settings.applicationUpdates}
                           onChange={(e) => setSettings({...settings, applicationUpdates: e.target.checked})}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-gray-900 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-gray-900"
                         />
                       </label>
                       <label className="flex items-center justify-between">
@@ -598,7 +597,7 @@ export default function StudentDashboard() {
                           type="checkbox"
                           checked={settings.deadlineReminders}
                           onChange={(e) => setSettings({...settings, deadlineReminders: e.target.checked})}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500"
+                          className="w-4 h-4 text-gray-900 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-gray-900"
                         />
                       </label>
                     </div>
@@ -613,7 +612,7 @@ export default function StudentDashboard() {
                         <select
                           value={settings.theme}
                           onChange={(e) => handleThemeChange(e.target.value)}
-                          className="px-3 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="px-3 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
                         >
                           <option value="light">Light</option>
                           <option value="dark">Dark</option>
@@ -651,7 +650,7 @@ export default function StudentDashboard() {
                   {/* Save Button */}
                   <button 
                     onClick={handleSaveSettings}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+                    className="w-full bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-black transition-colors"
                   >
                     Save Settings
                   </button>
@@ -661,84 +660,56 @@ export default function StudentDashboard() {
 
             {/* Main Content Area */}
             <div className="flex-1">
-          {/* Enhanced Stats Cards */}
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Total Applications */}
-            <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <FileText className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex items-center text-green-600 text-sm font-medium">
-                  <ArrowUpRight className="w-4 h-4 mr-1" />
-                  +12%
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-gray-900 dark:text-gray-100" />
                 </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Applications</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{applications.length}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">All time submissions</p>
-              </div>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Total Applications</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{applications.length}</p>
             </div>
             
             {/* Under Review */}
-            <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Clock className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex items-center text-yellow-600 text-sm font-medium">
-                  <Activity className="w-4 h-4 mr-1" />
-                  Active
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-gray-900 dark:text-gray-100" />
                 </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Under Review</p>
-                <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">
-                  {applications.filter(app => app.status === 'pending').length}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Currently processing</p>
-              </div>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Under Review</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                {applications.filter(app => app.status === 'pending').length}
+              </p>
             </div>
             
             {/* Approved */}
-            <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex items-center text-green-600 text-sm font-medium">
-                  <Sparkles className="w-4 h-4 mr-1" />
-                  Success
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-gray-900 dark:text-gray-100" />
                 </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Approved</p>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-                  {applications.filter(app => app.status === 'approved').length}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Accepted applications</p>
-              </div>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Approved</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                {applications.filter(app => app.status === 'approved').length}
+              </p>
             </div>
             
             {/* Success Rate */}
-            <div className="group bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Target className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex items-center text-purple-600 text-sm font-medium">
-                  <BarChart3 className="w-4 h-4 mr-1" />
-                  High
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <Target className="w-5 h-5 text-gray-900 dark:text-gray-100" />
                 </div>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Success Rate</p>
-                <p className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                  {applications.length > 0 ? Math.round((applications.filter(app => app.status === 'approved').length / applications.length) * 100) : 0}%
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Approval rate</p>
-              </div>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Success Rate</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                {applications.length > 0 ? Math.round((applications.filter(app => app.status === 'approved').length / applications.length) * 100) : 0}%
+              </p>
             </div>
           </div>
 
@@ -753,16 +724,16 @@ export default function StudentDashboard() {
 
           {applications.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FileText className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <FileText className="w-10 h-10 text-gray-900 dark:text-gray-100" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">No Applications Yet</h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">No Applications Yet</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
                 You haven't submitted any applications yet. Start your journey to becoming a nurse today!
               </p>
               <button
                 onClick={() => router.push('/schools/nursing/apply')}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2 mx-auto"
+                className="bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-black transition-colors flex items-center space-x-2 mx-auto"
               >
                 <Plus className="w-5 h-5" />
                 <span>Start Your Application</span>
@@ -772,10 +743,10 @@ export default function StudentDashboard() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
                 <div>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     Your Applications
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-300 mt-1">Manage and track your nursing school applications</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage and track your nursing school applications</p>
                 </div>
                 <div className="flex items-center space-x-3 w-full sm:w-auto">
                   <div className="relative flex-1 sm:flex-none">
@@ -785,22 +756,19 @@ export default function StudentDashboard() {
                       placeholder="Search applications..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 w-full sm:w-64 transition-all duration-200"
+                      className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 w-full sm:w-64"
                     />
                   </div>
                   <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
-                    className="px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-gray-100 transition-all duration-200"
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="all">All Status</option>
                     <option value="pending">Under Review</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
                   </select>
-                  <button className="p-3 border border-gray-200 rounded-xl hover:bg-white/80 transition-all duration-200 bg-white/60 backdrop-blur-sm">
-                    <Filter className="w-5 h-5 text-gray-600" />
-                  </button>
                 </div>
               </div>
               
@@ -809,96 +777,50 @@ export default function StudentDashboard() {
                 const StatusIcon = statusInfo.icon;
                 
                 return (
-                  <div key={application._id} className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
+                  <div key={application._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-md transition-shadow duration-200">
                     <div className="flex justify-between items-start mb-6">
                       <div className="flex-1">
-                        <div className="flex items-center space-x-4 mb-4">
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <BookOpen className="w-6 h-6 text-white" />
-                          </div>
-                          <div className="flex-1">
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
                               {application.program}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">#{application.applicationNumber}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">#{application.applicationNumber}</p>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200">
-                              <Copy className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200">
-                              <Share2 className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200">
-                              <MoreHorizontal className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          <div className="flex items-center text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-                            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 transition-colors duration-200">
-                              <Calendar className="w-5 h-5 text-blue-500" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Submitted</p>
-                              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{formatDate(application.submittedAt)}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center text-gray-600 group-hover:text-green-600 transition-colors duration-200">
-                            <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-200 dark:group-hover:bg-green-800/40 transition-colors duration-200">
-                              <User className="w-5 h-5 text-green-500" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Applicant</p>
-                              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{application.firstName} {application.lastName}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center text-gray-600 group-hover:text-purple-600 transition-colors duration-200">
-                            <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/40 transition-colors duration-200">
-                              <Mail className="w-5 h-5 text-purple-500" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Email</p>
-                              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{application.email}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex flex-col items-end space-y-4">
-                        <div className="flex items-center space-x-2">
-                          <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${statusInfo.color} shadow-sm`}>
-                            <StatusIcon className="w-4 h-4 mr-2" />
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusInfo.color}`}>
+                            <StatusIcon className="w-4 h-4 mr-1" />
                             {statusInfo.text}
                           </span>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => setSelectedApplication(application)}
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2 group"
-                          >
-                            <Eye className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                            <span>View Details</span>
-                          </button>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                          <div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Applicant</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{application.firstName} {application.lastName}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Email</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{application.email}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Submitted</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{formatDate(application.submittedAt)}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                     
-                    <div className="border-t border-gray-200/50 dark:border-gray-700/50 pt-4">
-                      <div className="flex justify-between items-center text-sm">
-                        <div className="flex items-center space-x-4 text-gray-500 dark:text-gray-400">
-                          <span>Last updated: {formatDate(application.updatedAt)}</span>
-                          <div className="flex items-center space-x-1">
-                            <Shield className="w-4 h-4" />
-                            <span>Secure</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2 text-gray-400">
-                          <Heart className="w-4 h-4 hover:text-red-500 cursor-pointer transition-colors duration-200" />
-                          <MessageCircle className="w-4 h-4 hover:text-blue-500 cursor-pointer transition-colors duration-200" />
-                        </div>
-                      </div>
+                    <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Last updated: {formatDate(application.updatedAt)}
+                      </p>
+                      <button
+                        onClick={() => setSelectedApplication(application)}
+                        className="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-black transition-colors"
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Details
+                      </button>
                     </div>
                   </div>
                 );

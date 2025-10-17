@@ -84,7 +84,8 @@ const DoctorsManagement = () => {
     'Gynecology',
     'Urology',
     'Anesthesiology',
-    'General Surgery'
+    'General Surgery',
+    'Microbiology'
   ];
 
   // Load doctors on component mount and when filters change
@@ -349,15 +350,48 @@ const DoctorsManagement = () => {
         </div>
       )}
 
-      {/* Doctors Grid */}
+      {/* Doctors Table */}
       {!loading && (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Doctor
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Department
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Qualifications
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Experience
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Rating
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Patients
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Appointments
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
           {doctors.map((doctor) => (
-          <div key={doctor._id} className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
+                  <tr key={doctor._id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center space-x-3">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-10 h-10 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
                     <img
                       src={doctor.image ? (doctor.image.startsWith('http') ? doctor.image : doctor.image) : 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face'}
                       alt={doctor.name}
@@ -367,73 +401,63 @@ const DoctorsManagement = () => {
                       }}
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">{doctor.name}</h3>
-                    <p className="text-sm text-blue-600 font-medium">{doctor.specialization}</p>
-                    <p className="text-xs text-gray-500">{doctor.department}</p>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{doctor.name}</div>
+                          <div className="text-sm text-blue-600">{doctor.specialization}</div>
                   </div>
                 </div>
-                <div className="relative">
-                  <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Award className="w-4 h-4 mr-2 text-gray-400" />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{doctor.department}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900 max-w-xs truncate" title={doctor.qualifications}>
                   {doctor.qualifications}
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Clock className="w-4 h-4 mr-2 text-gray-400" />
-                  {doctor.experience} experience
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{doctor.experience}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <div className="flex items-center justify-center">
+                        <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                        <span className="text-sm font-medium text-gray-900">{doctor.rating}</span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Star className="w-4 h-4 mr-2 text-yellow-400" />
-                  {doctor.rating} rating
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center">
-                  <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-1">
-                    <Users className="w-4 h-4 text-blue-600" />
-                  </div>
-                  <p className="text-xs text-gray-500">Patients</p>
-                  <p className="text-sm font-semibold text-gray-900">{doctor.patients.toLocaleString()}</p>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg mx-auto mb-1">
-                    <Calendar className="w-4 h-4 text-green-600" />
-                  </div>
-                  <p className="text-xs text-gray-500">Today</p>
-                  <p className="text-sm font-semibold text-gray-900">{doctor.appointments}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <div className="text-sm font-semibold text-gray-900">{doctor.patients.toLocaleString()}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
+                      <div className="text-sm font-semibold text-gray-900">{doctor.appointments}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
                 <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(doctor.status)}`}>
                   {doctor.status}
                 </span>
-                <div className="flex space-x-2">
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex items-center justify-end space-x-2">
                   <button
                     onClick={() => handleEdit(doctor)}
                     className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Edit Doctor"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(doctor)}
                     className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete Doctor"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
+                    </td>
+                  </tr>
         ))}
+              </tbody>
+            </table>
+          </div>
       </div>
       )}
 

@@ -457,25 +457,26 @@ export default function ApplicationsPage() {
                     {new Date(application.submittedAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex items-center justify-end space-x-2">
+                    <div className="flex items-center justify-end space-x-1">
                       <button
                         onClick={() => {
                           setSelectedApplication(application);
                           setShowModal(true);
                         }}
-                        className="text-blue-600 hover:text-blue-900 px-3 py-1 rounded-md hover:bg-blue-50 transition-colors"
+                        className="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:text-blue-900 rounded-md hover:bg-blue-50 transition-colors"
+                        title="View Details"
                       >
-                        View
+                        <Eye className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
                           setSelectedApplication(application);
                           setShowStatusModal(true);
                         }}
-                        className="text-gray-600 hover:text-gray-900 px-3 py-1 rounded-md hover:bg-gray-50 transition-colors flex items-center"
+                        className="inline-flex items-center justify-center w-8 h-8 text-gray-600 hover:text-gray-900 rounded-md hover:bg-gray-50 transition-colors"
+                        title="Update Status"
                       >
-                        <Edit3 className="w-4 h-4 mr-1" />
-                        Update
+                        <Edit3 className="w-4 h-4" />
                       </button>
                       <QuickStatusActions
                         application={application}
@@ -709,11 +710,11 @@ export default function ApplicationsPage() {
 
       {/* Notification */}
       {notification && (
-        <div className="fixed top-4 right-4 z-50">
-          <div className={`max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden ${
+        <div className="fixed inset-x-0 top-20 z-50 flex justify-center px-4">
+          <div className={`w-full max-w-2xl bg-white shadow-2xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-visible ${
             notification.type === 'success' ? 'border-l-4 border-green-400' : 'border-l-4 border-red-400'
           }`}>
-            <div className="p-4">
+            <div className="p-6">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   {notification.type === 'success' ? (
@@ -722,8 +723,8 @@ export default function ApplicationsPage() {
                     <AlertCircle className="h-6 w-6 text-red-400" />
                   )}
                 </div>
-                <div className="ml-3 w-0 flex-1 pt-0.5">
-                  <p className={`text-sm font-medium ${
+                <div className="ml-3 flex-1">
+                  <p className={`text-base font-semibold ${
                     notification.type === 'success' ? 'text-green-800' : 'text-red-800'
                   }`}>
                     {notification.type === 'success' ? 'Success!' : 'Error!'}
@@ -734,7 +735,7 @@ export default function ApplicationsPage() {
                     {notification.message}
                   </p>
                 </div>
-                <div className="ml-4 flex-shrink-0 flex">
+                <div className="ml-4 flex-shrink-0">
                   <button
                     className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={() => setNotification(null)}

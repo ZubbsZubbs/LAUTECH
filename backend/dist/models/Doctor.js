@@ -82,7 +82,8 @@ const DoctorSchema = new mongoose_1.Schema({
             'Gynecology',
             'Urology',
             'Anesthesiology',
-            'General Surgery'
+            'General Surgery',
+            'Microbiology'
         ]
     },
     specialization: {

@@ -74,16 +74,15 @@ const QuickStatusActions = ({
     setShowDropdown(false);
   };
 
-  if (visibleActions.length === 0) {
-    return null;
-  }
+  const hasActions = visibleActions.length > 0;
 
   return (
     <div className="relative">
       <button
-        onClick={() => setShowDropdown(!showDropdown)}
-        disabled={loading}
+        onClick={() => hasActions && setShowDropdown(!showDropdown)}
+        disabled={loading || !hasActions}
         className="inline-flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        title={!hasActions ? "No actions available" : "Quick actions"}
       >
         {loading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -92,7 +91,7 @@ const QuickStatusActions = ({
         )}
       </button>
 
-      {showDropdown && (
+      {showDropdown && hasActions && (
         <>
           {/* Backdrop */}
           <div 
