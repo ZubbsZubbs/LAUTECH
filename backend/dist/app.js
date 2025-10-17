@@ -35,7 +35,7 @@ app.use((0, cors_1.default)({
     origin: [
         'http://localhost:3000',
         'http://localhost:3001',
-        'http://localhost:3002',
+        'https://frontend-lautech-edu-ng.onrender.com',
         'http://localhost:3000/linkedin-callback',
         process.env.FRONTEND_URL || 'http://localhost:3000'
     ],
