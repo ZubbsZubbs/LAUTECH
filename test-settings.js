@@ -1,7 +1,7 @@
 // Settings Testing Script
 // Run with: node test-settings.js
 
-const API_BASE_URL = 'http://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 // Test configuration
 const TEST_CONFIG = {

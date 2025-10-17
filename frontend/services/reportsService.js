@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 // Helper function to make API calls
 const apiCall = async (endpoint, options = {}) => {

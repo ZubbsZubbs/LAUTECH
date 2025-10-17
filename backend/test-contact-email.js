@@ -12,7 +12,7 @@ async function testContactForm() {
       subject: 'Test Contact Form'
     };
 
-    const response = await fetch('http://localhost:9000/api/contact', {
+    const response = await fetch('https://lautech-edu-ng.onrender.com/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

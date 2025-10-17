@@ -162,7 +162,7 @@ export default function DepartmentsPage() {
     const fetchDepartments = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:9000/api/departments');
+        const response = await fetch('https://lautech-edu-ng.onrender.com/api/departments');
         
         // Check if response is HTML (404 or server error)
         const contentType = response.headers.get('content-type');

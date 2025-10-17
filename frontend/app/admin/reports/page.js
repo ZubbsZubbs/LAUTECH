@@ -73,7 +73,7 @@ const ReportsPage = () => {
       
       // Test API connection first
       try {
-        const testResponse = await fetch('http://localhost:9000/api/patients/stats');
+        const testResponse = await fetch('https://lautech-edu-ng.onrender.com/api/patients/stats');
         console.log('Test API call status:', testResponse.status);
         if (!testResponse.ok) {
           throw new Error(`Test API call failed: ${testResponse.status}`);

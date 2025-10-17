@@ -4,7 +4,7 @@ async function sendFreshReset() {
     console.log('📧 Sending Fresh Password Reset Email...');
     console.log('========================================');
 
-    const response = await fetch('http://localhost:9000/api/auth/forgot-password', {
+    const response = await fetch('https://lautech-edu-ng.onrender.com/api/auth/forgot-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 // Department service to fetch doctors by department
-const API_BASE_URL = 'http://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 class DepartmentService {
   async getDoctorsByDepartment(department) {

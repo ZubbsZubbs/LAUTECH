@@ -27,7 +27,7 @@ async function testResetPasswordPage() {
     console.log('\nTesting password reset API...');
     
     try {
-      const response = await fetch('http://localhost:9000/api/auth/reset-password', {
+      const response = await fetch('https://lautech-edu-ng.onrender.com/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

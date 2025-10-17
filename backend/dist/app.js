@@ -50,7 +50,7 @@ app.use((0, helmet_1.default)({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "https:", "http://localhost:9000"],
+            imgSrc: ["'self'", "data:", "https:", "https://lautech-edu-ng.onrender.com"],
             styleSrc: ["'self'", "'unsafe-inline'", "https:"],
             scriptSrc: ["'self'"],
             objectSrc: ["'none'"],
