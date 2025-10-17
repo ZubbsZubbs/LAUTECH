@@ -78,7 +78,9 @@ const userSchema = new Schema<IUser>({
     type: [String],
     default: []
   },
-  passwordChangedAt: Date
+  passwordChangedAt: Date,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 }, {
   timestamps: true
 });

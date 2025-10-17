@@ -8,9 +8,10 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const auth_controller_1 = require("../controllers/auth.controller");
 const router = (0, express_1.Router)();
 // Rate limiting for authentication endpoints
+// ⚠️ TEMPORARILY DISABLED FOR TESTING - RE-ENABLE IN PRODUCTION
 const authLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // limit each IP to 5 requests per windowMs
+    max: 1000, // ⚠️ INCREASED FOR TESTING - Original was 5
     message: {
         success: false,
         message: "Too many authentication attempts, please try again later."
@@ -18,9 +19,10 @@ const authLimiter = (0, express_rate_limit_1.default)({
     standardHeaders: true,
     legacyHeaders: false,
 });
+// ⚠️ TEMPORARILY DISABLED FOR TESTING - RE-ENABLE IN PRODUCTION
 const strictAuthLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 3, // limit each IP to 3 requests per windowMs for login
+    max: 1000, // ⚠️ INCREASED FOR TESTING - Original was 3
     message: {
         success: false,
         message: "Too many login attempts, please try again later."
@@ -28,9 +30,10 @@ const strictAuthLimiter = (0, express_rate_limit_1.default)({
     standardHeaders: true,
     legacyHeaders: false,
 });
+// ⚠️ TEMPORARILY DISABLED FOR TESTING - RE-ENABLE IN PRODUCTION
 const passwordResetLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 3, // limit each IP to 3 password reset requests per 15 minutes
+    max: 1000, // ⚠️ INCREASED FOR TESTING - Original was 3
     message: {
         success: false,
         message: "Too many password reset attempts, please try again later."

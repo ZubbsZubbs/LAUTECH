@@ -299,14 +299,18 @@ const changePassword = async (req, res) => {
             passwordHistory.shift(); // Remove oldest password
         }
         // SECURITY: Update password and log the change
-        await User_1.default.findByIdAndUpdate(userId, {
+        const updatedUser = await User_1.default.findByIdAndUpdate(userId, {
             password: hashedNewPassword,
             passwordHistory: passwordHistory,
             updatedAt: new Date(),
             passwordChangedAt: new Date() // Track when password was last changed
-        });
+        }, { new: true } // Return the updated document
+        );
         // SECURITY: Log password change for audit trail
         console.log(`Password changed for user ${userId} at ${new Date().toISOString()}`);
+        console.log(`Old password hash: ${user.password.substring(0, 20)}...`);
+        console.log(`New password hash: ${hashedNewPassword.substring(0, 20)}...`);
+        console.log(`Updated user password hash: ${updatedUser?.password?.substring(0, 20)}...`);
         res.status(200).json({
             success: true,
             message: 'Password changed successfully'

@@ -4,15 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const express_validator_1 = require("express-validator");
 const department_controller_1 = require("../controllers/department.controller");
+const express_validator_1 = require("express-validator");
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-// Simple auth middleware for now
-const requireAuth = (req, res, next) => {
-    // For now, just pass through - in production, implement proper auth
-    next();
-};
-const router = express_1.default.Router();
 // Rate limiting for department creation
 const departmentLimiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -32,17 +26,22 @@ const validateDepartment = [
     (0, express_validator_1.body)('status').optional().isIn(['active', 'inactive', 'maintenance']).withMessage('Invalid status'),
     (0, express_validator_1.body)('color').trim().notEmpty().withMessage('Department color is required'),
     (0, express_validator_1.body)('icon').trim().notEmpty().withMessage('Department icon is required'),
-    (0, express_validator_1.body)('doctors').optional().isInt({ min: 0 }).withMessage('Doctor count cannot be negative'),
+    (0, express_validator_1.body)('doctors').optional().isArray().withMessage('Doctors must be an array'),
+    (0, express_validator_1.body)('facilities').optional().isArray().withMessage('Facilities must be an array'),
+    (0, express_validator_1.body)('procedures').optional().isArray().withMessage('Procedures must be an array'),
+    (0, express_validator_1.body)('conditions').optional().isArray().withMessage('Conditions must be an array'),
     (0, express_validator_1.body)('patients').optional().isInt({ min: 0 }).withMessage('Patient count cannot be negative'),
     (0, express_validator_1.body)('appointments').optional().isInt({ min: 0 }).withMessage('Appointment count cannot be negative')
 ];
+const router = express_1.default.Router();
 // Public routes
 router.get('/', department_controller_1.getAllDepartments);
 router.get('/stats', department_controller_1.getDepartmentStats);
+router.get('/slug/:slug', department_controller_1.getDepartmentBySlug);
 router.get('/:id', department_controller_1.getDepartmentById);
-// Protected routes (Admin only)
-router.post('/', requireAuth, departmentLimiter, validateDepartment, department_controller_1.createDepartment);
-router.put('/:id', requireAuth, validateDepartment, department_controller_1.updateDepartment);
-router.patch('/:id/status', requireAuth, department_controller_1.updateDepartmentStatus);
-router.delete('/:id', requireAuth, department_controller_1.deleteDepartment);
+// Protected routes (Admin only) - Note: You'll need to add authentication middleware
+router.post('/', departmentLimiter, validateDepartment, department_controller_1.createDepartment);
+router.put('/:id', validateDepartment, department_controller_1.updateDepartment);
+router.delete('/:id', department_controller_1.deleteDepartment);
+router.patch('/:id/status', department_controller_1.updateDepartmentStatus);
 exports.default = router;

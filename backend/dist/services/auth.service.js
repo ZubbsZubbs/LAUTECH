@@ -171,7 +171,7 @@ class AuthService {
             user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
             await user.save();
             // Send reset email
-            const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/login?token=${resetToken}`;
+            const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
             await (0, email_forgot_password_1.sendPasswordLink)(email, email, resetUrl);
             return { message: "Password reset link sent to your email" };
         }

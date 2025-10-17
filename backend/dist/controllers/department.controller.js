@@ -3,9 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateDepartmentStatus = exports.getDepartmentStats = exports.deleteDepartment = exports.updateDepartment = exports.createDepartment = exports.getDepartmentById = exports.getAllDepartments = void 0;
+exports.updateDepartmentStatus = exports.getDepartmentStats = exports.deleteDepartment = exports.updateDepartment = exports.createDepartment = exports.getDepartmentBySlug = exports.getDepartmentById = exports.getAllDepartments = void 0;
 const express_validator_1 = require("express-validator");
 const Department_1 = __importDefault(require("../models/Department"));
+const Patient_1 = __importDefault(require("../models/Patient"));
 const asyncHandler_1 = __importDefault(require("../utils/asyncHandler"));
 const customError_1 = __importDefault(require("../utils/customError"));
 // Get all departments with filtering and pagination
@@ -35,11 +36,21 @@ exports.getAllDepartments = (0, asyncHandler_1.default)(async (req, res) => {
         .limit(limitNum)
         .select('-__v');
     const total = await Department_1.default.countDocuments(filter);
+    // Calculate real-time patient counts from Patient collection
+    const departmentsWithRealCounts = await Promise.all(departments.map(async (dept) => {
+        const patientCount = await Patient_1.default.countDocuments({
+            department: dept.name,
+            status: { $ne: 'discharged' }
+        });
+        const deptObj = dept.toObject();
+        deptObj.patients = patientCount; // Override with real count
+        return deptObj;
+    }));
     res.status(200).json({
         success: true,
         message: 'Departments retrieved successfully',
         data: {
-            departments,
+            departments: departmentsWithRealCounts,
             pagination: {
                 currentPage: pageNum,
                 totalPages: Math.ceil(total / limitNum),
@@ -57,10 +68,44 @@ exports.getDepartmentById = (0, asyncHandler_1.default)(async (req, res) => {
     if (!department) {
         throw new customError_1.default('Department not found', 404);
     }
+    // Calculate real-time patient count
+    const patientCount = await Patient_1.default.countDocuments({
+        department: department.name,
+        status: { $ne: 'discharged' }
+    });
+    const deptObj = department.toObject();
+    deptObj.patients = patientCount; // Override with real count
     res.status(200).json({
         success: true,
         message: 'Department retrieved successfully',
-        data: { department }
+        data: { department: deptObj }
+    });
+});
+// Get department by slug
+exports.getDepartmentBySlug = (0, asyncHandler_1.default)(async (req, res) => {
+    const { slug } = req.params;
+    const department = await Department_1.default.findOne({ slug }).select('-__v');
+    if (!department) {
+        throw new customError_1.default('Department not found', 404);
+    }
+    // Calculate real-time patient count
+    const patientCount = await Patient_1.default.countDocuments({
+        department: department.name,
+        status: { $ne: 'discharged' }
+    });
+    // Clean up the department data to ensure arrays are properly formatted
+    const cleanedDepartment = {
+        ...department.toObject(),
+        doctors: Array.isArray(department.doctors) ? department.doctors : [],
+        facilities: Array.isArray(department.facilities) ? department.facilities : [],
+        procedures: Array.isArray(department.procedures) ? department.procedures : [],
+        conditions: Array.isArray(department.conditions) ? department.conditions : [],
+        patients: patientCount // Override with real count
+    };
+    res.status(200).json({
+        success: true,
+        message: 'Department retrieved successfully',
+        data: { department: cleanedDepartment }
     });
 });
 // Create new department
@@ -69,7 +114,7 @@ exports.createDepartment = (0, asyncHandler_1.default)(async (req, res) => {
     if (!errors.isEmpty()) {
         throw new customError_1.default('Validation failed', 400);
     }
-    const { name, description, head, status = 'active', color, icon, doctors = 0, patients = 0, appointments = 0 } = req.body;
+    const { name, description, head, status = 'active', color, icon, doctors = [], facilities = [], procedures = [], conditions = [], patients = 0, appointments = 0 } = req.body;
     // Check if department already exists
     const existingDepartment = await Department_1.default.findOne({ name });
     if (existingDepartment) {
@@ -83,6 +128,9 @@ exports.createDepartment = (0, asyncHandler_1.default)(async (req, res) => {
         color,
         icon,
         doctors,
+        facilities,
+        procedures,
+        conditions,
         patients,
         appointments
     });
@@ -141,22 +189,19 @@ exports.getDepartmentStats = (0, asyncHandler_1.default)(async (req, res) => {
     const activeDepartments = await Department_1.default.countDocuments({ status: 'active' });
     const inactiveDepartments = await Department_1.default.countDocuments({ status: 'inactive' });
     const maintenanceDepartments = await Department_1.default.countDocuments({ status: 'maintenance' });
-    // Get total doctors, patients, and appointments across all departments
+    // Get real-time patient count (excluding discharged patients)
+    const totalPatients = await Patient_1.default.countDocuments({ status: { $ne: 'discharged' } });
+    // Get total appointments and doctors from departments
     const stats = await Department_1.default.aggregate([
         {
             $group: {
                 _id: null,
-                totalDoctors: { $sum: '$doctors' },
-                totalPatients: { $sum: '$patients' },
-                totalAppointments: { $sum: '$appointments' }
+                totalAppointments: { $sum: '$appointments' },
+                totalDoctors: { $sum: { $size: '$doctors' } }
             }
         }
     ]);
-    const aggregatedStats = stats.length > 0 ? stats[0] : {
-        totalDoctors: 0,
-        totalPatients: 0,
-        totalAppointments: 0
-    };
+    const result = stats[0] || { totalAppointments: 0, totalDoctors: 0 };
     res.status(200).json({
         success: true,
         message: 'Department statistics retrieved successfully',
@@ -165,7 +210,8 @@ exports.getDepartmentStats = (0, asyncHandler_1.default)(async (req, res) => {
             activeDepartments,
             inactiveDepartments,
             maintenanceDepartments,
-            ...aggregatedStats
+            totalPatients,
+            ...result
         }
     });
 });

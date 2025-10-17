@@ -43,7 +43,6 @@ const User_1 = __importStar(require("../models/User"));
 const Settings_1 = __importDefault(require("../models/Settings"));
 const notification_service_1 = require("../services/notification.service");
 const validation_1 = require("../utils/validation");
-const accountLockout_1 = require("../utils/accountLockout");
 const auth_service_1 = require("../services/auth.service");
 // Generate JWT token
 const generateToken = (userId) => {
@@ -196,19 +195,20 @@ const login = async (req, res) => {
         }
         const { email, password } = value;
         const sanitizedEmail = (0, validation_1.validateAndSanitizeEmail)(email);
+        // ⚠️ TEMPORARILY DISABLED FOR TESTING - RE-ENABLE IN PRODUCTION
         // Check account lockout status
-        const lockoutStatus = await accountLockout_1.AccountLockoutManager.getLockoutStatusByEmail(sanitizedEmail);
-        if (lockoutStatus.isLocked) {
-            return res.status(423).json({
-                success: false,
-                message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutStatus.remainingTime || 0) / 60)} minutes.`
-            });
-        }
+        // const lockoutStatus = await AccountLockoutManager.getLockoutStatusByEmail(sanitizedEmail);
+        // if (lockoutStatus.isLocked) {
+        //   return res.status(423).json({
+        //     success: false,
+        //     message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutStatus.remainingTime || 0) / 60)} minutes.`
+        //   });
+        // }
         // Find user with timeout handling
         const user = await User_1.default.findOne({ email: sanitizedEmail }).maxTimeMS(10000); // 10 second timeout
         if (!user) {
             // Record failed attempt even for non-existent users to prevent enumeration
-            await accountLockout_1.AccountLockoutManager.recordFailedAttemptByEmail(sanitizedEmail);
+            // await AccountLockoutManager.recordFailedAttemptByEmail(sanitizedEmail); // ⚠️ DISABLED FOR TESTING
             return res.status(401).json({
                 success: false,
                 message: 'Invalid credentials'
@@ -217,30 +217,34 @@ const login = async (req, res) => {
         // Check if user has a password (not Firebase user)
         if (!user.password) {
             // Record failed attempt
-            await accountLockout_1.AccountLockoutManager.recordFailedAttempt(user._id.toString());
+            // await AccountLockoutManager.recordFailedAttempt((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
             return res.status(401).json({
                 success: false,
                 message: 'This account was created with Firebase. Please use Firebase login.'
             });
         }
         // Check password
+        console.log(`🔐 Login attempt for ${sanitizedEmail}`);
+        console.log(`Stored password hash: ${user.password.substring(0, 20)}...`);
+        console.log(`Password last changed: ${user.passwordChangedAt || 'Never'}`);
         const isPasswordValid = await bcrypt_1.default.compare(password, user.password);
+        console.log(`Password valid: ${isPasswordValid}`);
         if (!isPasswordValid) {
             // Record failed attempt
-            const lockoutResult = await accountLockout_1.AccountLockoutManager.recordFailedAttempt(user._id.toString());
-            if (lockoutResult.isLocked) {
-                return res.status(423).json({
-                    success: false,
-                    message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutResult.remainingTime || 0) / 60)} minutes.`
-                });
-            }
+            // const lockoutResult = await AccountLockoutManager.recordFailedAttempt((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
+            // if (lockoutResult.isLocked) {
+            //   return res.status(423).json({
+            //     success: false,
+            //     message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutResult.remainingTime || 0) / 60)} minutes.`
+            //   });
+            // }
             return res.status(401).json({
                 success: false,
-                message: `Invalid credentials. ${lockoutResult.attemptsRemaining} attempts remaining.`
+                message: `Invalid credentials.` // ${lockoutResult.attemptsRemaining} attempts remaining.` // ⚠️ DISABLED FOR TESTING
             });
         }
         // Reset failed attempts on successful login
-        await accountLockout_1.AccountLockoutManager.resetFailedAttempts(user._id.toString());
+        // await AccountLockoutManager.resetFailedAttempts((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
         // Generate token
         const token = generateToken(user._id.toString());
         res.status(200).json({

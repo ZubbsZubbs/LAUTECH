@@ -83,7 +83,9 @@ const userSchema = new mongoose_1.Schema({
         type: [String],
         default: []
     },
-    passwordChangedAt: Date
+    passwordChangedAt: Date,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 }, {
     timestamps: true
 });

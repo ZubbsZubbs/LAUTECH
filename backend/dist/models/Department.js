@@ -34,13 +34,51 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const DepartmentSchema = new mongoose_1.Schema({
+// Doctor sub-schema
+const doctorSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    specialization: { type: String, required: true },
+    image: { type: String },
+    email: { type: String },
+    phone: { type: String },
+    experience: { type: String },
+    qualifications: { type: String }
+}, { _id: false });
+// Facility sub-schema
+const facilitySchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    image: { type: String },
+    equipment: [{ type: String }]
+}, { _id: false });
+// Procedure sub-schema
+const procedureSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    duration: { type: String },
+    cost: { type: String }
+}, { _id: false });
+// Condition sub-schema
+const conditionSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    symptoms: [{ type: String }],
+    treatment: { type: String }
+}, { _id: false });
+// Main department schema
+const departmentSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: [true, 'Department name is required'],
         unique: true,
         trim: true,
         maxlength: [100, 'Department name cannot exceed 100 characters']
+    },
+    slug: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        trim: true
     },
     description: {
         type: String,
@@ -52,7 +90,7 @@ const DepartmentSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'Department head is required'],
         trim: true,
-        maxlength: [100, 'Department head name cannot exceed 100 characters']
+        maxlength: [100, 'Head name cannot exceed 100 characters']
     },
     status: {
         type: String,
@@ -69,11 +107,10 @@ const DepartmentSchema = new mongoose_1.Schema({
         required: [true, 'Department icon is required'],
         trim: true
     },
-    doctors: {
-        type: Number,
-        default: 0,
-        min: [0, 'Doctor count cannot be negative']
-    },
+    doctors: [doctorSchema],
+    facilities: [facilitySchema],
+    procedures: [procedureSchema],
+    conditions: [conditionSchema],
     patients: {
         type: Number,
         default: 0,
@@ -93,15 +130,28 @@ const DepartmentSchema = new mongoose_1.Schema({
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 });
-// Index for better query performance
-DepartmentSchema.index({ name: 1 });
-DepartmentSchema.index({ status: 1 });
-DepartmentSchema.index({ head: 1 });
-// Virtual for department ID - removed due to TypeScript issues
-// The _id field will be automatically converted to string in JSON responses
-// Pre-save middleware to update lastUpdated
-DepartmentSchema.pre('save', function (next) {
-    this.lastUpdated = new Date();
+// Create slug from name before saving
+departmentSchema.pre('save', function (next) {
+    if (this.isModified('name') || this.isNew || !this.slug) {
+        this.slug = this.name
+            .toLowerCase()
+            .replace(/[^a-z0-9 -]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
+    }
     next();
 });
-exports.default = mongoose_1.default.model('Department', DepartmentSchema);
+// Index for better query performance
+departmentSchema.index({ name: 1 });
+departmentSchema.index({ slug: 1 });
+departmentSchema.index({ status: 1 });
+// Virtual for total doctors count
+departmentSchema.virtual('totalDoctors').get(function () {
+    return this.doctors.length;
+});
+// Virtual for total facilities count
+departmentSchema.virtual('totalFacilities').get(function () {
+    return this.facilities.length;
+});
+exports.default = mongoose_1.default.model('Department', departmentSchema);

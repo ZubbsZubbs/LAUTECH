@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const Settings_1 = __importDefault(require("../models/Settings"));
+const settings_controller_1 = require("../controllers/settings.controller");
 const router = (0, express_1.Router)();
 // Save user settings
 router.post("/", async (req, res) => {
@@ -73,4 +74,13 @@ router.get("/", async (req, res) => {
         });
     }
 });
+// Additional routes from controller
+router.get("/:userId", settings_controller_1.getSettings);
+router.put("/:userId/profile", settings_controller_1.updateProfileSettings);
+router.put("/:userId/hospital", settings_controller_1.updateHospitalSettings);
+router.put("/:userId/notifications", settings_controller_1.updateNotificationSettings);
+router.put("/:userId/security", settings_controller_1.updateSecuritySettings);
+router.put("/:userId/system", settings_controller_1.updateSystemSettings);
+router.put("/:userId/password", settings_controller_1.changePassword);
+router.put("/:userId", settings_controller_1.updateAllSettings);
 exports.default = router;

@@ -39,11 +39,25 @@ app.use((0, cors_1.default)({
         'http://localhost:3000/linkedin-callback',
         process.env.FRONTEND_URL || 'http://localhost:3000'
     ],
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['Content-Disposition']
 }));
 app.use('/public', express_1.default.static(path_1.default.join(__dirname, 'public')));
 // Middleware
-app.use((0, helmet_1.default)());
+app.use((0, helmet_1.default)({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:", "http://localhost:9000"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+            scriptSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
+    },
+}));
 app.use((0, morgan_1.default)('combined'));
 // Body parsing middleware
 app.use(express_1.default.json({ limit: '10mb' }));
@@ -60,8 +74,24 @@ app.use('/api/doctors', doctor_route_1.default);
 app.use('/api/departments', department_route_1.default);
 app.use('/api/upload', upload_route_1.default);
 app.use('/api/settings', settings_route_1.default);
-// Serve uploaded files
-app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, 'uploads')));
+// Serve uploaded files with proper headers
+app.use('/uploads', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Cross-Origin-Resource-Policy', 'cross-origin');
+    res.header('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    res.header('Cache-Control', 'public, max-age=31536000');
+    next();
+}, express_1.default.static(path_1.default.join(__dirname, 'uploads'), {
+    setHeaders: (res, path) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET');
+        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+        res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    }
+}));
 app.use((req, res, next) => {
     console.log('Request received:', {
         method: req.method,

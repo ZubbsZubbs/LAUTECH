@@ -162,7 +162,7 @@ export class AuthService {
       await user.save();
 
       // Send reset email
-      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/login?token=${resetToken}`;
+      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
       await sendPasswordLink(email, email, resetUrl);
 
       return { message: "Password reset link sent to your email" };

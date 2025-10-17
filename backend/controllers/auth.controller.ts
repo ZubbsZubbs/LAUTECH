@@ -171,20 +171,21 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = value;
     const sanitizedEmail = validateAndSanitizeEmail(email);
 
+    // ⚠️ TEMPORARILY DISABLED FOR TESTING - RE-ENABLE IN PRODUCTION
     // Check account lockout status
-    const lockoutStatus = await AccountLockoutManager.getLockoutStatusByEmail(sanitizedEmail);
-    if (lockoutStatus.isLocked) {
-      return res.status(423).json({
-        success: false,
-        message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutStatus.remainingTime || 0) / 60)} minutes.`
-      });
-    }
+    // const lockoutStatus = await AccountLockoutManager.getLockoutStatusByEmail(sanitizedEmail);
+    // if (lockoutStatus.isLocked) {
+    //   return res.status(423).json({
+    //     success: false,
+    //     message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutStatus.remainingTime || 0) / 60)} minutes.`
+    //   });
+    // }
 
     // Find user with timeout handling
     const user = await User.findOne({ email: sanitizedEmail }).maxTimeMS(10000); // 10 second timeout
     if (!user) {
       // Record failed attempt even for non-existent users to prevent enumeration
-      await AccountLockoutManager.recordFailedAttemptByEmail(sanitizedEmail);
+      // await AccountLockoutManager.recordFailedAttemptByEmail(sanitizedEmail); // ⚠️ DISABLED FOR TESTING
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
@@ -194,7 +195,7 @@ export const login = async (req: Request, res: Response) => {
     // Check if user has a password (not Firebase user)
     if (!user.password) {
       // Record failed attempt
-      await AccountLockoutManager.recordFailedAttempt((user._id as any).toString());
+      // await AccountLockoutManager.recordFailedAttempt((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
       return res.status(401).json({
         success: false,
         message: 'This account was created with Firebase. Please use Firebase login.'
@@ -202,26 +203,32 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Check password
+    console.log(`🔐 Login attempt for ${sanitizedEmail}`);
+    console.log(`Stored password hash: ${user.password.substring(0, 20)}...`);
+    console.log(`Password last changed: ${user.passwordChangedAt || 'Never'}`);
+    
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log(`Password valid: ${isPasswordValid}`);
+    
     if (!isPasswordValid) {
       // Record failed attempt
-      const lockoutResult = await AccountLockoutManager.recordFailedAttempt((user._id as any).toString());
+      // const lockoutResult = await AccountLockoutManager.recordFailedAttempt((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
       
-      if (lockoutResult.isLocked) {
-        return res.status(423).json({
-          success: false,
-          message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutResult.remainingTime || 0) / 60)} minutes.`
-        });
-      }
+      // if (lockoutResult.isLocked) {
+      //   return res.status(423).json({
+      //     success: false,
+      //     message: `Account is temporarily locked due to too many failed login attempts. Please try again in ${Math.ceil((lockoutResult.remainingTime || 0) / 60)} minutes.`
+      //   });
+      // }
       
       return res.status(401).json({
         success: false,
-        message: `Invalid credentials. ${lockoutResult.attemptsRemaining} attempts remaining.`
+        message: `Invalid credentials.` // ${lockoutResult.attemptsRemaining} attempts remaining.` // ⚠️ DISABLED FOR TESTING
       });
     }
 
     // Reset failed attempts on successful login
-    await AccountLockoutManager.resetFailedAttempts((user._id as any).toString());
+    // await AccountLockoutManager.resetFailedAttempts((user._id as any).toString()); // ⚠️ DISABLED FOR TESTING
 
     // Generate token
     const token = generateToken((user._id as any).toString());

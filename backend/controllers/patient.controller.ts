@@ -145,7 +145,9 @@ export const createPatient = async (req: Request, res: Response): Promise<void> 
       phone,
       address,
       bloodType,
-      allergies: Array.isArray(allergies) ? allergies : allergies.split(',').map((a: string) => a.trim()).filter((a: string) => a),
+      allergies: Array.isArray(allergies) ? 
+        allergies.filter((a: string) => a && a.toLowerCase() !== 'none') : 
+        allergies.split(',').map((a: string) => a.trim()).filter((a: string) => a && a.toLowerCase() !== 'none'),
       emergencyContact,
       medicalHistory: Array.isArray(medicalHistory) ? medicalHistory : medicalHistory.split(',').map((h: string) => h.trim()).filter((h: string) => h),
       currentMedications: Array.isArray(currentMedications) ? currentMedications : currentMedications.split(',').map((m: string) => m.trim()).filter((m: string) => m),
@@ -194,7 +196,7 @@ export const updatePatient = async (req: Request, res: Response): Promise<void> 
     
     // Handle array fields
     if (updateData.allergies && typeof updateData.allergies === 'string') {
-      updateData.allergies = updateData.allergies.split(',').map((a: string) => a.trim()).filter((a: string) => a);
+      updateData.allergies = updateData.allergies.split(',').map((a: string) => a.trim()).filter((a: string) => a && a.toLowerCase() !== 'none');
     }
     if (updateData.medicalHistory && typeof updateData.medicalHistory === 'string') {
       updateData.medicalHistory = updateData.medicalHistory.split(',').map((h: string) => h.trim()).filter((h: string) => h);

@@ -1,6 +1,16 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import Settings from "../models/Settings";
+import { 
+  getSettings, 
+  updateProfileSettings, 
+  updateHospitalSettings, 
+  updateNotificationSettings, 
+  updateSecuritySettings, 
+  updateSystemSettings, 
+  changePassword, 
+  updateAllSettings 
+} from "../controllers/settings.controller";
 
 const router = Router();
 
@@ -76,5 +86,15 @@ router.get("/", async (req: Request, res: Response): Promise<void> => {
     });
   }
 });
+
+// Additional routes from controller
+router.get("/:userId", getSettings as any);
+router.put("/:userId/profile", updateProfileSettings as any);
+router.put("/:userId/hospital", updateHospitalSettings as any);
+router.put("/:userId/notifications", updateNotificationSettings as any);
+router.put("/:userId/security", updateSecuritySettings as any);
+router.put("/:userId/system", updateSystemSettings as any);
+router.put("/:userId/password", changePassword as any);
+router.put("/:userId", updateAllSettings as any);
 
 export default router;
