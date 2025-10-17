@@ -25,34 +25,49 @@ export default function AdminLoginForm() {
   const { loading, error } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [savedEmail, setSavedEmail] = useState("");
 
-  // Check for reset token in URL
+  // Check for reset token in URL and load saved email
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if (token) {
-      setShowForgotPassword(true);
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      if (token) {
+        setShowForgotPassword(true);
+      }
+      
+      // Load saved email from localStorage
+      const email = localStorage.getItem("loginEmail") || "";
+      setSavedEmail(email);
     }
   }, []);
 
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm({
     resolver: zodResolver(AdminLoginSchema),
     defaultValues: {
-      email: localStorage.getItem("loginEmail") || "",
+      email: "",
       rememberMe: false
     }
   });
+
+  // Update form email when savedEmail loads
+  useEffect(() => {
+    if (savedEmail) {
+      setValue('email', savedEmail);
+    }
+  }, [savedEmail, setValue]);
 
   const onSubmit = async (data) => {
     try {
       dispatch(clearError());
       const result = await dispatch(loginUser(data));
       
-      if (data.rememberMe) {
+      if (data.rememberMe && typeof window !== 'undefined') {
         localStorage.setItem("loginEmail", data.email);
       }
       
@@ -166,7 +181,7 @@ export default function AdminLoginForm() {
       <ForgotPasswordModal 
         isOpen={showForgotPassword} 
         onClose={() => setShowForgotPassword(false)}
-        initialToken={new URLSearchParams(window.location.search).get('token')}
+        initialToken={typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null}
       />
     </div>
   );

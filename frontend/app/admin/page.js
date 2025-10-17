@@ -20,10 +20,10 @@ import {
   Eye,
   Baby,
   Bone,
-  Tooth,
-  Lung,
+  Smile,
+  Wind,
   Shield,
-  Flask,
+  Beaker,
   FileText,
   RefreshCw,
   Loader2
@@ -132,13 +132,13 @@ const Dashboard = () => {
     'Ophthalmology': Eye,
     'Pediatrics': Baby,
     'Orthopedics': Bone,
-    'Dentistry': Tooth,
-    'Pulmonology': Lung,
+    'Dentistry': Smile,
+    'Pulmonology': Wind,
     'Emergency Medicine': Shield,
     'Internal Medicine': Activity,
-    'Pathology': Flask,
+    'Pathology': Beaker,
     'Radiology': Activity,
-    'Oncology': Flask
+    'Oncology': Beaker
   };
 
   const getStatusColor = (status) => {

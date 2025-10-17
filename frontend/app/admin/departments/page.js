@@ -18,11 +18,11 @@ import {
   Eye as EyeIcon,
   Baby,
   Bone,
-  Tooth,
-  Lung,
+  Smile,
+  Wind,
   Shield,
   Activity,
-  Flask,
+  Beaker,
   X,
   Check
 } from 'lucide-react';
@@ -141,7 +141,7 @@ const DepartmentsManagement = () => {
     {
       id: 6,
       name: 'Dentistry',
-      icon: Tooth,
+      icon: Smile,
       description: 'Complete oral health and dental care services.',
       head: 'Dr. Robert Kim',
       doctors: 4,
@@ -154,7 +154,7 @@ const DepartmentsManagement = () => {
     {
       id: 7,
       name: 'Pulmonology',
-      icon: Lung,
+      icon: Wind,
       description: 'Specialized respiratory care and lung disease treatment.',
       head: 'Dr. Jennifer Garcia',
       doctors: 6,
@@ -193,7 +193,7 @@ const DepartmentsManagement = () => {
     {
       id: 10,
       name: 'Pathology',
-      icon: Flask,
+      icon: Beaker,
       description: 'Laboratory services and disease diagnosis.',
       head: 'Dr. James Wilson',
       doctors: 3,
@@ -219,7 +219,7 @@ const DepartmentsManagement = () => {
     {
       id: 12,
       name: 'Oncology',
-      icon: Flask,
+      icon: Beaker,
       description: 'Comprehensive cancer care and treatment.',
       head: 'Dr. Amina Hassan',
       doctors: 8,
@@ -256,11 +256,11 @@ const DepartmentsManagement = () => {
       'Brain': Brain,
       'Bone': Bone,
       'Eye': EyeIcon,
-      'Tooth': Tooth,
-      'Lung': Lung,
+      'Smile': Smile,
+      'Wind': Wind,
       'Shield': Shield,
       'Activity': Activity,
-      'Flask': Flask,
+      'Beaker': Beaker,
       'X': X,
       'Check': Check
     };

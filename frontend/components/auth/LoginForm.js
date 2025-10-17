@@ -53,7 +53,7 @@ export default function LoginForm() {
 
       toast.success("Login successful!");
       
-      if (data.rememberMe) {
+      if (data.rememberMe && typeof window !== 'undefined') {
         localStorage.setItem("loginEmail", data.email);
       }
       
