@@ -182,6 +182,54 @@ app.get('/test-db', async (req, res) => {
   }
 });
 
+// Email diagnostic endpoint
+app.get('/test-email', async (req, res) => {
+  try {
+    const EmailService = require('./email/email.service').default;
+    
+    const diagnostics = {
+      emailConfigured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
+      emailUser: process.env.EMAIL_USER ? '✅ SET' : '❌ NOT SET',
+      emailPass: process.env.EMAIL_PASS ? '✅ SET (hidden)' : '❌ NOT SET',
+      emailFrom: process.env.EMAIL_FROM || 'Not set',
+      testResult: null as any
+    };
+    
+    // Try to send a test email
+    if (diagnostics.emailConfigured) {
+      try {
+        const result = await EmailService.sendEmail(
+          process.env.EMAIL_USER,
+          'Test Email from Live Server',
+          'This is a test email to verify email configuration on production.',
+          '<h2>Test Email</h2><p>This is a test email to verify email configuration on production.</p>'
+        );
+        diagnostics.testResult = {
+          status: 'SUCCESS',
+          messageId: result.messageId,
+          response: result.response
+        };
+      } catch (emailError) {
+        diagnostics.testResult = {
+          status: 'FAILED',
+          error: emailError instanceof Error ? emailError.message : 'Unknown error'
+        };
+      }
+    } else {
+      diagnostics.testResult = {
+        status: 'SKIPPED',
+        reason: 'Email credentials not configured'
+      };
+    }
+    
+    res.json(diagnostics);
+  } catch (error) {
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
 // Uploads directory diagnostic endpoint
 app.get('/test-uploads', (req, res) => {
   const testFile = req.query.file as string || 'birthCertificate-1760282176496-60228965.pdf';
