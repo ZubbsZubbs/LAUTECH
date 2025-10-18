@@ -18,31 +18,30 @@ const createContact = async (req, res) => {
             phoneNumber
         });
         await contact.save();
-        // Send email notification (always send contact form emails)
-        try {
-            await notification_service_1.NotificationService.sendNotification({
-                email: process.env.EMAIL_USER || 'admin@lautech.edu.ng',
-                subject: `New Contact Form Submission: ${subject || 'No Subject'}`,
-                text: `New Contact Form Submission from ${name}`,
-                html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phoneNumber || 'Not provided'}</p>
-          <p><strong>Subject:</strong> ${subject || 'No subject'}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-          <hr>
-          <p><em>Sent from LAUTECH Teaching Hospital Contact Form</em></p>
-        `,
-                type: 'contact'
-            });
-            console.log('Contact form notification sent successfully');
-        }
-        catch (emailError) {
-            console.error('Email sending failed:', emailError);
-            // Don't fail the request if email fails
-        }
+        // Send email notification asynchronously (don't wait for it)
+        // This prevents the request from timing out while email is being sent
+        notification_service_1.NotificationService.sendNotification({
+            email: process.env.EMAIL_USER || 'admin@lautech.edu.ng',
+            subject: `New Contact Form Submission: ${subject || 'No Subject'}`,
+            text: `New Contact Form Submission from ${name}`,
+            html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phoneNumber || 'Not provided'}</p>
+        <p><strong>Subject:</strong> ${subject || 'No subject'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+        <hr>
+        <p><em>Sent from LAUTECH Teaching Hospital Contact Form</em></p>
+      `,
+            type: 'contact'
+        }).then(() => {
+            console.log('✅ Contact form notification sent successfully');
+        }).catch((emailError) => {
+            console.error('❌ Email sending failed:', emailError);
+        });
+        // Respond immediately without waiting for email
         res.status(201).json({
             success: true,
             message: 'Contact message sent successfully',

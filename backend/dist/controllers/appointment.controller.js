@@ -93,21 +93,19 @@ const createAppointment = async (req, res) => {
             status: Appointment_1.AppointmentStatus.PENDING
         });
         await appointment.save();
-        // Send confirmation email to patient (checking notification preferences)
-        try {
-            await notification_service_1.NotificationService.sendNotification({
-                userId: req.user?.id, // Get from authenticated user
-                email: appointment.patientEmail,
-                subject: `Appointment Request Confirmation - ${appointment.department}`,
-                text: `Appointment Request Confirmation - ${appointment.department}`,
-                html: await generateAppointmentConfirmationHTML(appointment),
-                type: 'appointment'
-            });
-        }
-        catch (emailError) {
-            console.error('Failed to send confirmation email:', emailError);
-            // Don't fail the appointment creation if email fails
-        }
+        // Send confirmation email to patient asynchronously (don't wait)
+        notification_service_1.NotificationService.sendNotification({
+            userId: req.user?.id, // Get from authenticated user
+            email: appointment.patientEmail,
+            subject: `Appointment Request Confirmation - ${appointment.department}`,
+            text: `Appointment Request Confirmation - ${appointment.department}`,
+            html: await generateAppointmentConfirmationHTML(appointment),
+            type: 'appointment'
+        }).then(() => {
+            console.log('✅ Appointment confirmation email sent');
+        }).catch((emailError) => {
+            console.error('❌ Failed to send confirmation email:', emailError);
+        });
         res.status(201).json({
             success: true,
             message: 'Appointment request submitted successfully',
@@ -311,20 +309,19 @@ const updateAppointmentStatus = async (req, res) => {
             appointment.cancelledAt = new Date();
         }
         await appointment.save();
-        // Send status update email to patient (checking notification preferences)
-        try {
-            await notification_service_1.NotificationService.sendNotification({
-                userId: req.user?.id, // Get from authenticated user
-                email: appointment.patientEmail,
-                subject: `Appointment Status Update - ${appointment.department}`,
-                text: `Appointment Status Update - ${appointment.department}`,
-                html: await generateAppointmentStatusUpdateHTML(appointment, previousStatus),
-                type: 'appointment'
-            });
-        }
-        catch (emailError) {
-            console.error('Failed to send status update email:', emailError);
-        }
+        // Send status update email to patient asynchronously (don't wait)
+        notification_service_1.NotificationService.sendNotification({
+            userId: req.user?.id, // Get from authenticated user
+            email: appointment.patientEmail,
+            subject: `Appointment Status Update - ${appointment.department}`,
+            text: `Appointment Status Update - ${appointment.department}`,
+            html: await generateAppointmentStatusUpdateHTML(appointment, previousStatus),
+            type: 'appointment'
+        }).then(() => {
+            console.log('✅ Appointment status update email sent');
+        }).catch((emailError) => {
+            console.error('❌ Failed to send status update email:', emailError);
+        });
         res.status(200).json({
             success: true,
             message: 'Appointment status updated successfully',

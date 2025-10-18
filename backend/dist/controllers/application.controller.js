@@ -107,27 +107,25 @@ const createNursingApplication = async (req, res) => {
         // Create application
         const application = new Application_1.default(applicationData);
         await application.save();
-        // Send confirmation email to applicant (checking notification preferences)
-        try {
-            await notification_service_1.NotificationService.sendNotification({
-                userId: application.email, // Use email as identifier
-                email: application.email,
-                subject: `Application Submitted Successfully - ${application.applicationNumber}`,
-                text: `Application Submitted Successfully - ${application.applicationNumber}`,
-                html: await generateApplicationConfirmationHTML(application),
-                type: 'application'
-            });
-        }
-        catch (emailError) {
-            console.error('Failed to send confirmation email:', emailError);
-        }
-        // Send notification email to admin
-        try {
-            await sendAdminNotificationEmail(application);
-        }
-        catch (emailError) {
-            console.error('Failed to send admin notification email:', emailError);
-        }
+        // Send confirmation email to applicant asynchronously (don't wait)
+        notification_service_1.NotificationService.sendNotification({
+            userId: application.email, // Use email as identifier
+            email: application.email,
+            subject: `Application Submitted Successfully - ${application.applicationNumber}`,
+            text: `Application Submitted Successfully - ${application.applicationNumber}`,
+            html: await generateApplicationConfirmationHTML(application),
+            type: 'application'
+        }).then(() => {
+            console.log('✅ Application confirmation email sent');
+        }).catch((emailError) => {
+            console.error('❌ Failed to send confirmation email:', emailError);
+        });
+        // Send notification email to admin asynchronously
+        sendAdminNotificationEmail(application).then(() => {
+            console.log('✅ Admin notification email sent');
+        }).catch((emailError) => {
+            console.error('❌ Failed to send admin notification email:', emailError);
+        });
         res.status(201).json({
             success: true,
             message: 'Application submitted successfully',
@@ -278,20 +276,16 @@ const updateApplicationStatus = async (req, res) => {
             if (admissionDecision)
                 application.admissionDecision = admissionDecision;
             await application.save();
-            // Send enhanced status update email to applicant
-            try {
-                await (0, application_status_emails_1.sendApplicationStatusEmail)(application);
-            }
-            catch (emailError) {
-                console.error('Failed to send status update email:', emailError);
+            // Send enhanced status update email to applicant asynchronously
+            (0, application_status_emails_1.sendApplicationStatusEmail)(application).then(() => {
+                console.log('✅ Status update email sent');
+            }).catch((emailError) => {
+                console.error('❌ Failed to send status update email:', emailError);
                 // Fallback to basic email if enhanced email fails
-                try {
-                    await sendStatusUpdateEmail(application);
-                }
-                catch (fallbackError) {
-                    console.error('Failed to send fallback status update email:', fallbackError);
-                }
-            }
+                sendStatusUpdateEmail(application).catch((fallbackError) => {
+                    console.error('❌ Failed to send fallback status update email:', fallbackError);
+                });
+            });
             res.status(200).json({
                 success: true,
                 message: 'Application status updated successfully',
@@ -328,13 +322,12 @@ const startApplicationReview = async (req, res) => {
             if (notes)
                 application.notes = notes;
             await application.save();
-            // Send under review email to applicant
-            try {
-                await (0, application_status_emails_1.sendApplicationStatusEmail)(application);
-            }
-            catch (emailError) {
-                console.error('Failed to send under review email:', emailError);
-            }
+            // Send under review email to applicant asynchronously
+            (0, application_status_emails_1.sendApplicationStatusEmail)(application).then(() => {
+                console.log('✅ Under review email sent');
+            }).catch((emailError) => {
+                console.error('❌ Failed to send under review email:', emailError);
+            });
             res.status(200).json({
                 success: true,
                 message: 'Application review started successfully',
