@@ -49,11 +49,9 @@ class EmailService {
       // Try different configurations if the first one fails
       const configs = [
         {
-          name: 'Gmail SMTP 587',
+          name: 'Gmail Simple Service',
           config: {
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
+            service: 'gmail',
             auth: {
               user: process.env.EMAIL_USER,
               pass: process.env.EMAIL_PASS,
@@ -64,13 +62,22 @@ class EmailService {
           }
         },
         {
-          name: 'Gmail Simple',
+          name: 'Gmail SMTP 587',
           config: {
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
             auth: {
               user: process.env.EMAIL_USER,
               pass: process.env.EMAIL_PASS,
-            }
+            },
+            tls: {
+              rejectUnauthorized: false,
+              ciphers: 'SSLv3'
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 45000
           }
         },
         {
@@ -85,7 +92,10 @@ class EmailService {
             },
             tls: {
               rejectUnauthorized: false
-            }
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 45000
           }
         }
       ];
@@ -100,29 +110,59 @@ class EmailService {
 
       let lastError: Error | null = null;
 
-      // Try each configuration
+      // Try each configuration with retries
       for (const { name, config } of configs) {
-        try {
-          console.log(`🔄 Trying ${name} for email to ${to}...`);
-          const testTransporter = nodemailer.createTransport(config);
-          
-          // Set a timeout for the email sending (increased to 30 seconds for production)
-          const emailPromise = testTransporter.sendMail(mailOptions);
-          const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Email sending timeout')), 30000)
-          );
+        let attempts = 0;
+        const maxAttempts = 2;
+        
+        while (attempts < maxAttempts) {
+          try {
+            attempts++;
+            console.log(`🔄 Trying ${name} for email to ${to}... (Attempt ${attempts}/${maxAttempts})`);
+            
+            const testTransporter = nodemailer.createTransport({
+              ...config,
+              pool: false, // Disable connection pooling
+              maxConnections: 1,
+              rateDelta: 20000,
+              rateLimit: 5,
+            });
+            
+            // Verify connection before sending
+            try {
+              await testTransporter.verify();
+              console.log(`✅ SMTP connection verified for ${name}`);
+            } catch (verifyError) {
+              console.log(`⚠️ SMTP verification failed for ${name}, but will try sending anyway`);
+            }
+            
+            // Set a timeout for the email sending (increased to 45 seconds for production)
+            const emailPromise = testTransporter.sendMail(mailOptions);
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Email sending timeout after 45 seconds')), 45000)
+            );
 
-          const info = await Promise.race([emailPromise, timeoutPromise]) as any;
-          console.log(`✅ Email sent successfully using ${name}:`, info.messageId);
-          
-          // Also log to file for backup
-          this.logEmailToFile(to, subject, text, 'SENT', html, info.messageId);
-          
-          return info;
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-          console.log(`❌ ${name} failed:`, errorMessage);
-          lastError = error instanceof Error ? error : new Error('Unknown error');
+            const info = await Promise.race([emailPromise, timeoutPromise]) as any;
+            console.log(`✅ Email sent successfully using ${name}:`, info.messageId);
+            
+            // Close the connection
+            testTransporter.close();
+            
+            // Also log to file for backup
+            this.logEmailToFile(to, subject, text, 'SENT', html, info.messageId);
+            
+            return info;
+          } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            console.log(`❌ ${name} attempt ${attempts} failed:`, errorMessage);
+            lastError = error instanceof Error ? error : new Error('Unknown error');
+            
+            // Wait before retry
+            if (attempts < maxAttempts) {
+              console.log(`⏳ Waiting 2 seconds before retry...`);
+              await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+          }
         }
       }
 
