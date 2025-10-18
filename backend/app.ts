@@ -19,6 +19,7 @@ import settingsRoutes from './routes/settings.route';
 
 import { errorHandler } from './middleware/error_handler.middleware';
 import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
 
@@ -32,19 +33,38 @@ initializeApp(firebaseConfig);
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    'http://localhost:3000', 
-    'http://localhost:3001', 
-    'http://localhost:3002', 
-    'http://localhost:3000/linkedin-callback',
-    process.env.FRONTEND_URL || 'http://localhost:3000'
-  ],
+const corsOptions = {
+  origin: (origin: any, callback: any) => {
+    // Allow requests with no origin (like mobile apps, curl, postman)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000', 
+      'http://localhost:3001', 
+      'http://localhost:3002',
+      process.env.FRONTEND_URL,
+      'https://lautech-edu-ng.onrender.com'
+    ].filter(Boolean);
+    
+    // Allow any origin that includes lautech or is localhost
+    if (allowedOrigins.indexOf(origin) !== -1 || 
+        origin.includes('localhost') || 
+        origin.includes('lautech') ||
+        origin.includes('vercel.app') ||
+        origin.includes('netlify.app') ||
+        origin.includes('render.com')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // For now, allow all origins in production
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Content-Disposition']
-}));
+};
+
+app.use(cors(corsOptions));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 // Middleware
 app.use(helmet({
@@ -79,7 +99,34 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/settings', settingsRoutes);
 
 // Serve uploaded files with proper headers
+// Try multiple possible upload directories (for development and production)
+const uploadsPaths = [
+  path.join(__dirname, 'uploads'),           // When running from dist/
+  path.join(__dirname, '..', 'uploads'),     // When running from dist/ (go up one level)
+  path.join(process.cwd(), 'uploads'),       // From project root
+  path.join(process.cwd(), 'backend', 'uploads') // From project root with backend folder
+];
+
+// Find the first existing uploads directory
+let uploadsPath = uploadsPaths[0];
+for (const testPath of uploadsPaths) {
+  if (fs.existsSync(testPath)) {
+    uploadsPath = testPath;
+    console.log('✅ Found uploads directory at:', uploadsPath);
+    break;
+  }
+}
+
+console.log('📁 Using uploads directory:', uploadsPath);
+console.log('📁 Current __dirname:', __dirname);
+console.log('📁 Current process.cwd():', process.cwd());
+
 app.use('/uploads', (req, res, next) => {
+  console.log('📁 Upload request:', {
+    url: req.url,
+    path: req.path,
+    fullPath: path.join(uploadsPath, req.path)
+  });
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -87,8 +134,9 @@ app.use('/uploads', (req, res, next) => {
   res.header('Cross-Origin-Embedder-Policy', 'unsafe-none');
   res.header('Cache-Control', 'public, max-age=31536000');
   next();
-}, express.static(path.join(__dirname, 'uploads'), {
-  setHeaders: (res, path) => {
+}, express.static(uploadsPath, {
+  setHeaders: (res, filePath) => {
+    console.log('📄 Serving file:', filePath);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

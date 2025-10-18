@@ -131,9 +131,9 @@ class EmailService {
                 try {
                     console.log(`🔄 Trying ${name} for email to ${to}...`);
                     const testTransporter = nodemailer.createTransport(config);
-                    // Set a timeout for the email sending
+                    // Set a timeout for the email sending (increased to 30 seconds for production)
                     const emailPromise = testTransporter.sendMail(mailOptions);
-                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Email sending timeout')), 10000));
+                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Email sending timeout')), 30000));
                     const info = await Promise.race([emailPromise, timeoutPromise]);
                     console.log(`✅ Email sent successfully using ${name}:`, info.messageId);
                     // Also log to file for backup
