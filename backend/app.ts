@@ -182,10 +182,31 @@ app.get('/test-db', async (req, res) => {
   }
 });
 
-// Email diagnostic endpoint
+// Email diagnostic endpoint (quick check - no actual email sent)
+app.get('/test-email-config', (req, res) => {
+  try {
+    const diagnostics = {
+      emailConfigured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
+      emailUser: process.env.EMAIL_USER ? '✅ SET' : '❌ NOT SET',
+      emailUserValue: process.env.EMAIL_USER || 'NOT SET',
+      emailPass: process.env.EMAIL_PASS ? '✅ SET (length: ' + process.env.EMAIL_PASS?.length + ')' : '❌ NOT SET',
+      emailFrom: process.env.EMAIL_FROM || 'Not set',
+      frontendUrl: process.env.FRONTEND_URL || 'Not set',
+      nodeEnv: process.env.NODE_ENV || 'Not set'
+    };
+    
+    res.json(diagnostics);
+  } catch (error) {
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+// Email diagnostic endpoint with actual send (use ?send=true to test)
 app.get('/test-email', async (req, res) => {
   try {
-    const EmailService = require('./email/email.service').default;
+    const sendTest = req.query.send === 'true';
     
     const diagnostics = {
       emailConfigured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
@@ -195,15 +216,24 @@ app.get('/test-email', async (req, res) => {
       testResult: null as any
     };
     
-    // Try to send a test email
-    if (diagnostics.emailConfigured) {
+    // Only send test email if explicitly requested
+    if (sendTest && diagnostics.emailConfigured) {
+      const EmailService = require('./email/email.service').default;
+      
+      // Set a timeout to prevent hanging
+      const emailPromise = EmailService.sendEmail(
+        process.env.EMAIL_USER,
+        'Test Email from Live Server',
+        'This is a test email to verify email configuration on production.',
+        '<h2>Test Email</h2><p>This is a test email to verify email configuration on production.</p>'
+      );
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Email test timeout after 10 seconds')), 10000)
+      );
+      
       try {
-        const result = await EmailService.sendEmail(
-          process.env.EMAIL_USER,
-          'Test Email from Live Server',
-          'This is a test email to verify email configuration on production.',
-          '<h2>Test Email</h2><p>This is a test email to verify email configuration on production.</p>'
-        );
+        const result = await Promise.race([emailPromise, timeoutPromise]) as any;
         diagnostics.testResult = {
           status: 'SUCCESS',
           messageId: result.messageId,
@@ -215,6 +245,11 @@ app.get('/test-email', async (req, res) => {
           error: emailError instanceof Error ? emailError.message : 'Unknown error'
         };
       }
+    } else if (!sendTest) {
+      diagnostics.testResult = {
+        status: 'NOT_TESTED',
+        message: 'Add ?send=true to URL to actually send test email'
+      };
     } else {
       diagnostics.testResult = {
         status: 'SKIPPED',
