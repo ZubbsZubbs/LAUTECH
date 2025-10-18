@@ -182,6 +182,51 @@ app.get('/test-db', async (req, res) => {
   }
 });
 
+// Uploads directory diagnostic endpoint
+app.get('/test-uploads', (req, res) => {
+  const testFile = req.query.file as string || 'birthCertificate-1760282176496-60228965.pdf';
+  const testPath = req.query.path as string || 'applications';
+  
+  const diagnostics = {
+    requestedFile: testFile,
+    requestedPath: testPath,
+    __dirname: __dirname,
+    processCwd: process.cwd(),
+    uploadsPath: uploadsPath,
+    possiblePaths: uploadsPaths,
+    fileChecks: {} as any
+  };
+  
+  // Check if file exists in various locations
+  const possibleFilePaths = [
+    path.join(uploadsPath, testPath, testFile),
+    path.join(__dirname, 'uploads', testPath, testFile),
+    path.join(__dirname, '..', 'uploads', testPath, testFile),
+    path.join(process.cwd(), 'uploads', testPath, testFile),
+    path.join(process.cwd(), 'backend', 'uploads', testPath, testFile)
+  ];
+  
+  possibleFilePaths.forEach((filePath, index) => {
+    diagnostics.fileChecks[`path${index + 1}`] = {
+      path: filePath,
+      exists: fs.existsSync(filePath),
+      isFile: fs.existsSync(filePath) ? fs.statSync(filePath).isFile() : false
+    };
+  });
+  
+  // List files in uploads directory
+  try {
+    const uploadsDir = path.join(uploadsPath, testPath);
+    if (fs.existsSync(uploadsDir)) {
+      diagnostics.fileChecks.filesInDirectory = fs.readdirSync(uploadsDir).slice(0, 10); // First 10 files
+    }
+  } catch (error) {
+    diagnostics.fileChecks.directoryError = error instanceof Error ? error.message : 'Unknown error';
+  }
+  
+  res.json(diagnostics);
+});
+
 // Error handling
 app.use(errorHandler);
 
