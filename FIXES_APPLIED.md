@@ -28,7 +28,7 @@
 **Solution Applied:**
 - Removed hardcoded localhost fallback
 - Added multiple environment variable checks: `FRONTEND_URL`, `NEXT_PUBLIC_FRONTEND_URL`
-- Set production default to `https://lautech-edu-ng.onrender.com`
+- Set production default to `https://localhost:9000`
 
 **File Changed:** `backend/services/auth.service.ts` (Line 165-166)
 
@@ -94,7 +94,7 @@ EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_app_password
 
 # Backend API URL (for frontend)
-NEXT_PUBLIC_API_URL=https://lautech-edu-ng.onrender.com
+NEXT_PUBLIC_API_URL=https://localhost:9000
 ```
 
 ---

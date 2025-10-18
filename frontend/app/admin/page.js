@@ -54,10 +54,10 @@ const Dashboard = () => {
     try {
       // Fetch all stats in parallel
       const [patientsRes, doctorsRes, appointmentsRes, applicationsRes] = await Promise.all([
-        fetch('https://lautech-edu-ng.onrender.com/api/patients/stats'),
-        fetch('https://lautech-edu-ng.onrender.com/api/doctors/stats'),
-        fetch('https://lautech-edu-ng.onrender.com/api/appointments/stats'),
-        fetch('https://lautech-edu-ng.onrender.com/api/applications/stats')
+        fetch('https://localhost:9000/api/patients/stats'),
+        fetch('https://localhost:9000/api/doctors/stats'),
+        fetch('https://localhost:9000/api/appointments/stats'),
+        fetch('https://localhost:9000/api/applications/stats')
       ]);
 
       const [patientsData, doctorsData, appointmentsData, applicationsData] = await Promise.all([
@@ -90,7 +90,7 @@ const Dashboard = () => {
       setRecentActivities(activities);
 
       // Fetch upcoming appointments
-      const appointmentsRes2 = await fetch('https://lautech-edu-ng.onrender.com/api/appointments?limit=5&status=pending');
+      const appointmentsRes2 = await fetch('https://localhost:9000/api/appointments?limit=5&status=pending');
       const appointmentsData2 = await appointmentsRes2.json();
       
       if (appointmentsData2.success && appointmentsData2.data?.appointments) {

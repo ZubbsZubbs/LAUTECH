@@ -21,7 +21,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, initialToken = null }) => {
     setError('');
 
     try {
-      const response = await fetch('https://lautech-edu-ng.onrender.com/api/auth/forgot-password', {
+      const response = await fetch('https://localhost:9000/api/auth/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, initialToken = null }) => {
     }
 
     try {
-      const response = await fetch('https://lautech-edu-ng.onrender.com/api/auth/reset-password', {
+      const response = await fetch('https://localhost:9000/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

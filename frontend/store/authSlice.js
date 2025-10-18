@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../utilities/firebase';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://lautech-edu-ng.onrender.com';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:9000';
 
 // Initial state
 const initialState = {

@@ -442,7 +442,7 @@ export default function DepartmentDetailPage() {
     const fetchDepartment = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://lautech-edu-ng.onrender.com/api/departments/slug/${params.slug}`);
+        const response = await fetch(`https://localhost:9000/api/departments/slug/${params.slug}`);
         
         // Check if response is HTML (404 or server error)
         const contentType = response.headers.get('content-type');
@@ -636,7 +636,7 @@ export default function DepartmentDetailPage() {
       
       
       try {
-        const response = await fetch(`https://lautech-edu-ng.onrender.com/api/doctors?department=${encodeURIComponent(department.name)}&status=active`);
+        const response = await fetch(`https://localhost:9000/api/doctors?department=${encodeURIComponent(department.name)}&status=active`);
         
         // Check if response is HTML (404 or server error)
         const contentType = response.headers.get('content-type');
@@ -698,7 +698,7 @@ export default function DepartmentDetailPage() {
   const fetchDoctorProfile = async (doctorId) => {
     try {
       setLoadingDoctor(true);
-      const response = await fetch(`https://lautech-edu-ng.onrender.com/api/doctors/${doctorId}`);
+      const response = await fetch(`https://localhost:9000/api/doctors/${doctorId}`);
       
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {

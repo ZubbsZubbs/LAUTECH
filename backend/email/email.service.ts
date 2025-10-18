@@ -47,22 +47,10 @@ class EmailService {
       }
 
       // Try different configurations if the first one fails
+      // Optimized for Render/production environments
       const configs = [
         {
-          name: 'Gmail Simple Service',
-          config: {
-            service: 'gmail',
-            auth: {
-              user: process.env.EMAIL_USER,
-              pass: process.env.EMAIL_PASS,
-            },
-            tls: {
-              rejectUnauthorized: false
-            }
-          }
-        },
-        {
-          name: 'Gmail SMTP 587',
+          name: 'Gmail SMTP 587 (Production Optimized)',
           config: {
             host: 'smtp.gmail.com',
             port: 587,
@@ -73,15 +61,19 @@ class EmailService {
             },
             tls: {
               rejectUnauthorized: false,
-              ciphers: 'SSLv3'
+              minVersion: 'TLSv1.2'
             },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 45000
+            connectionTimeout: 15000,
+            greetingTimeout: 15000,
+            socketTimeout: 30000,
+            pool: false,
+            maxConnections: 1,
+            debug: true,
+            logger: true
           }
         },
         {
-          name: 'Gmail SMTP 465',
+          name: 'Gmail SMTP 465 (SSL)',
           config: {
             host: 'smtp.gmail.com',
             port: 465,
@@ -91,11 +83,28 @@ class EmailService {
               pass: process.env.EMAIL_PASS,
             },
             tls: {
+              rejectUnauthorized: false,
+              minVersion: 'TLSv1.2'
+            },
+            connectionTimeout: 15000,
+            greetingTimeout: 15000,
+            socketTimeout: 30000,
+            pool: false,
+            maxConnections: 1
+          }
+        },
+        {
+          name: 'Gmail Simple Service',
+          config: {
+            service: 'gmail',
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+            tls: {
               rejectUnauthorized: false
             },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 45000
+            pool: false
           }
         }
       ];
@@ -113,40 +122,43 @@ class EmailService {
       // Try each configuration with retries
       for (const { name, config } of configs) {
         let attempts = 0;
-        const maxAttempts = 2;
+        const maxAttempts = 3; // Increased to 3 attempts
         
         while (attempts < maxAttempts) {
           try {
             attempts++;
-            console.log(`🔄 Trying ${name} for email to ${to}... (Attempt ${attempts}/${maxAttempts})`);
+            console.log(`🔄 [${new Date().toISOString()}] Trying ${name} for email to ${to}... (Attempt ${attempts}/${maxAttempts})`);
             
-            const testTransporter = nodemailer.createTransport({
-              ...config,
-              pool: false, // Disable connection pooling
-              maxConnections: 1,
-              rateDelta: 20000,
-              rateLimit: 5,
-            });
+            const testTransporter = nodemailer.createTransport(config);
             
-            // Verify connection before sending
+            // Verify connection before sending (with timeout)
             try {
-              await testTransporter.verify();
+              const verifyPromise = testTransporter.verify();
+              const verifyTimeout = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Verification timeout')), 10000)
+              );
+              await Promise.race([verifyPromise, verifyTimeout]);
               console.log(`✅ SMTP connection verified for ${name}`);
             } catch (verifyError) {
-              console.log(`⚠️ SMTP verification failed for ${name}, but will try sending anyway`);
+              const verifyMsg = verifyError instanceof Error ? verifyError.message : 'Unknown';
+              console.log(`⚠️ SMTP verification failed for ${name}: ${verifyMsg}, but will try sending anyway`);
             }
             
-            // Set a timeout for the email sending (increased to 45 seconds for production)
+            // Set a timeout for the email sending (30 seconds)
             const emailPromise = testTransporter.sendMail(mailOptions);
             const timeoutPromise = new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Email sending timeout after 45 seconds')), 45000)
+              setTimeout(() => reject(new Error('Email sending timeout after 30 seconds')), 30000)
             );
 
             const info = await Promise.race([emailPromise, timeoutPromise]) as any;
-            console.log(`✅ Email sent successfully using ${name}:`, info.messageId);
+            console.log(`✅ [${new Date().toISOString()}] Email sent successfully using ${name}:`, info.messageId);
             
             // Close the connection
-            testTransporter.close();
+            try {
+              testTransporter.close();
+            } catch (closeError) {
+              console.log('⚠️ Error closing transporter (non-critical)');
+            }
             
             // Also log to file for backup
             this.logEmailToFile(to, subject, text, 'SENT', html, info.messageId);
@@ -154,13 +166,16 @@ class EmailService {
             return info;
           } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            const errorStack = error instanceof Error ? error.stack : '';
             console.log(`❌ ${name} attempt ${attempts} failed:`, errorMessage);
+            console.log(`   Error details:`, errorStack?.split('\n')[0]);
             lastError = error instanceof Error ? error : new Error('Unknown error');
             
-            // Wait before retry
+            // Wait before retry (exponential backoff)
             if (attempts < maxAttempts) {
-              console.log(`⏳ Waiting 2 seconds before retry...`);
-              await new Promise(resolve => setTimeout(resolve, 2000));
+              const waitTime = attempts * 3000; // 3s, 6s, 9s
+              console.log(`⏳ Waiting ${waitTime/1000} seconds before retry...`);
+              await new Promise(resolve => setTimeout(resolve, waitTime));
             }
           }
         }

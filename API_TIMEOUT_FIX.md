@@ -104,7 +104,7 @@ git push origin master
 
 ### 1. Test Contact Form:
 ```
-POST https://lautech-edu-ng.onrender.com/api/contact
+POST https://localhost:9000/api/contact
 {
   "name": "Test User",
   "email": "test@example.com",
@@ -120,7 +120,7 @@ POST https://lautech-edu-ng.onrender.com/api/contact
 
 ### 2. Test Health Endpoint:
 ```
-GET https://lautech-edu-ng.onrender.com/health
+GET https://localhost:9000/health
 ```
 
 **Expected:**

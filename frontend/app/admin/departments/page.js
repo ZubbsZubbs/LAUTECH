@@ -44,7 +44,7 @@ const DepartmentsManagement = () => {
     const fetchDepartments = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://lautech-edu-ng.onrender.com/api/departments');
+        const response = await fetch('https://localhost:9000/api/departments');
         
         // Check if response is HTML (404 or server error)
         const contentType = response.headers.get('content-type');
@@ -284,7 +284,7 @@ const DepartmentsManagement = () => {
 
   const handleViewTeam = async (department) => {
     try {
-        const response = await fetch(`https://lautech-edu-ng.onrender.com/api/doctors?department=${encodeURIComponent(department.name)}&status=active`);
+        const response = await fetch(`https://localhost:9000/api/doctors?department=${encodeURIComponent(department.name)}&status=active`);
       const data = await response.json();
       
       if (data.success) {

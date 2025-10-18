@@ -1,5 +1,5 @@
 // Upload service for handling file uploads
-const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
+const API_BASE_URL = 'https://localhost:9000/api';
 
 class UploadService {
   async uploadImage(file) {
@@ -70,7 +70,7 @@ class UploadService {
   getImageUrl(imagePath) {
     if (!imagePath) return null;
     if (imagePath.startsWith('http')) return imagePath;
-    return `https://lautech-edu-ng.onrender.com${imagePath}`;
+    return `https://localhost:9000${imagePath}`;
   }
 }
 

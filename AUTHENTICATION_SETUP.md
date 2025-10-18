@@ -51,7 +51,7 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
 
 # Backend API URL
-NEXT_PUBLIC_API_URL=https://lautech-edu-ng.onrender.com
+NEXT_PUBLIC_API_URL=https://localhost:9000
 ```
 
 ### **2. Firebase Setup**
