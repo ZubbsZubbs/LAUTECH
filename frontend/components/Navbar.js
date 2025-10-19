@@ -109,10 +109,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative w-full z-20">
+    <nav className="relative w-full">
       {/* Navbar */}
       <div
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 w-full z-[100] transition-all duration-300 ${
           isScrolled 
             ? "bg-white/98 backdrop-blur-lg shadow-xl py-3" 
             : "bg-transparent py-5"
@@ -242,13 +242,14 @@ const Navbar = () => {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`lg:hidden focus:outline-none p-2 rounded-lg transition-all duration-300 ${
+              className={`lg:hidden focus:outline-none p-2 rounded-lg transition-all duration-300 relative ${
                 isScrolled 
-                  ? "text-gray-900 hover:bg-gray-100" 
-                  : "text-white hover:bg-white/10"
+                  ? "text-gray-900 hover:bg-gray-100 bg-white/50" 
+                  : "text-white hover:bg-white/20 bg-black/20"
               }`}
+              aria-label="Toggle menu"
             >
-              <Menu size={24} />
+              <Menu size={24} className="relative z-10" />
             </button>
           </div>
         </div>
@@ -256,14 +257,14 @@ const Navbar = () => {
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] transition-opacity duration-300"
+            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[110] transition-opacity duration-300"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-2xl transition-transform duration-500 ease-out z-[9999] overflow-y-auto ${
+          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-2xl transition-transform duration-500 ease-out z-[120] overflow-y-auto ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
