@@ -162,7 +162,7 @@ export class AuthService {
       await user.save();
 
       // Send reset email
-      const frontendUrl = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://localhost:9000';
+      const frontendUrl = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://lautech-edu-ng.onrender.com';
       const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
       await sendPasswordLink(email, email, resetUrl);
 

@@ -1,7 +1,7 @@
 // Test Notification Integration
 // Run with: node test-notification-integration.js
 
-const API_BASE_URL = 'https://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 // Test configuration
 const TEST_CONFIG = {

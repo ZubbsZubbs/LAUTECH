@@ -1,5 +1,5 @@
 // Force the correct API URL to fix the 404 issue
-const API_BASE_URL = 'https://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 class DoctorService {
   async getAllDoctors(params = {}) {

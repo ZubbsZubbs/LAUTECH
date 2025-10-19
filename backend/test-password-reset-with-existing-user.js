@@ -18,7 +18,7 @@ async function testPasswordResetWithExistingUser() {
 
     // Try to register the user first
     try {
-      const registerResponse = await fetch('https://localhost:9000/api/auth/register', {
+      const registerResponse = await fetch('https://lautech-edu-ng.onrender.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ async function testPasswordResetWithExistingUser() {
 
     // Step 2: Request password reset for the test user
     console.log('\nStep 2: Requesting password reset...');
-    const forgotPasswordResponse = await fetch('https://localhost:9000/api/auth/forgot-password', {
+    const forgotPasswordResponse = await fetch('https://lautech-edu-ng.onrender.com/api/auth/forgot-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -41,7 +41,7 @@ async function testApplicationEmail() {
     };
 
     // Test the notification service endpoint
-    const response = await fetch('https://localhost:9000/api/notifications/send', {
+    const response = await fetch('https://lautech-edu-ng.onrender.com/api/notifications/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

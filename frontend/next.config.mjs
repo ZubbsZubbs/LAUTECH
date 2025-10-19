@@ -16,11 +16,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://localhost:9000/api/:path*',
+        destination: 'https://lautech-edu-ng.onrender.com/api/:path*',
       },
       {
         source: '/uploads/:path*',
-        destination: 'https://localhost:9000/uploads/:path*',
+        destination: 'https://lautech-edu-ng.onrender.com/uploads/:path*',
       },
     ];
   },

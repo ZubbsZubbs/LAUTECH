@@ -44,7 +44,7 @@ async function testMultipart() {
   }));
 
   try {
-    const response = await fetch('https://localhost:9000/api/applications/nursing', {
+    const response = await fetch('https://lautech-edu-ng.onrender.com/api/applications/nursing', {
       method: 'POST',
       body: form
     });

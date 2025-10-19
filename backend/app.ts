@@ -43,7 +43,7 @@ const corsOptions = {
       'http://localhost:3001', 
       'http://localhost:3002',
       process.env.FRONTEND_URL,
-      'https://localhost:9000'
+      'https://lautech-edu-ng.onrender.com'
     ].filter(Boolean);
     
     // Allow any origin that includes lautech or is localhost
@@ -71,7 +71,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:", "https://localhost:9000"],
+      imgSrc: ["'self'", "data:", "https:", "https://lautech-edu-ng.onrender.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https:"],
       scriptSrc: ["'self'"],
       objectSrc: ["'none'"],

@@ -93,7 +93,7 @@ Frontend will run on: http://localhost:3000
 cd C:\Users\Admin\Desktop\LAUTECH\backend
 npm run dev
 ```
-Backend will run on: https://localhost:9000
+Backend will run on: https://lautech-edu-ng.onrender.com
 
 ## 🔗 Integration Points
 

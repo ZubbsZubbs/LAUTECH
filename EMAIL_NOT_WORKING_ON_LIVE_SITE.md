@@ -12,7 +12,7 @@
 
 ### Visit this URL on your live site:
 ```
-https://localhost:9000/test-email
+https://lautech-edu-ng.onrender.com/test-email
 ```
 
 ### Expected Responses:
@@ -103,7 +103,7 @@ EMAIL_FROM=LAUTECH Teaching Hospital <toadevs@gmail.com>
 1. Click **"Save Changes"**
 2. Render will automatically redeploy (2-5 minutes)
 3. Wait for deployment to complete
-4. Test again: `https://localhost:9000/test-email`
+4. Test again: `https://lautech-edu-ng.onrender.com/test-email`
 
 ---
 
@@ -163,7 +163,7 @@ EMAIL_PASS exists: true
 
 ### Use Postman or curl:
 ```bash
-curl -X POST https://localhost:9000/api/contact \
+curl -X POST https://lautech-edu-ng.onrender.com/api/contact \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Test User",
@@ -336,7 +336,7 @@ You'll know it's working when:
 
 ## 🚀 Next Steps
 
-1. **Visit:** `https://localhost:9000/test-email`
+1. **Visit:** `https://lautech-edu-ng.onrender.com/test-email`
 2. **Share the response** with me
 3. **Check Render logs** for errors
 4. **I'll help you fix it!** 🛠️

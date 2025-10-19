@@ -171,7 +171,7 @@ class AuthService {
             user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
             await user.save();
             // Send reset email
-            const frontendUrl = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://localhost:9000';
+            const frontendUrl = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://lautech-edu-ng.onrender.com';
             const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
             await (0, email_forgot_password_1.sendPasswordLink)(email, email, resetUrl);
             return { message: "Password reset link sent to your email" };

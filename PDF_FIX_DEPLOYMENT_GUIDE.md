@@ -33,13 +33,13 @@ Once deployed, visit these URLs on your **live site**:
 
 ### 1. Check if backend is updated:
 ```
-https://localhost:9000/health
+https://lautech-edu-ng.onrender.com/health
 ```
 Should return: `{"status":"OK","timestamp":"..."}`
 
 ### 2. Check uploads directory diagnostic:
 ```
-https://localhost:9000/test-uploads
+https://lautech-edu-ng.onrender.com/test-uploads
 ```
 
 This will show you:
@@ -49,7 +49,7 @@ This will show you:
 
 ### 3. Check specific file:
 ```
-https://localhost:9000/test-uploads?file=birthCertificate-1760282176496-60228965.pdf&path=applications
+https://lautech-edu-ng.onrender.com/test-uploads?file=birthCertificate-1760282176496-60228965.pdf&path=applications
 ```
 
 ---
@@ -148,7 +148,7 @@ git push
 If you just want to test if the path detection works, try accessing:
 
 ```
-https://localhost:9000/uploads/applications/birthCertificate-1760282176496-60228965.pdf
+https://lautech-edu-ng.onrender.com/uploads/applications/birthCertificate-1760282176496-60228965.pdf
 ```
 
 **Expected Result:**

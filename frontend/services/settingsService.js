@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://localhost:9000/api';
+const API_BASE_URL = 'https://lautech-edu-ng.onrender.com/api';
 
 // Helper function to get auth token
 const getAuthToken = () => {

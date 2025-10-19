@@ -7,7 +7,7 @@ async function testCompletePasswordReset() {
 
     // Step 1: Request password reset
     console.log('Step 1: Requesting password reset...');
-    const forgotPasswordResponse = await fetch('https://localhost:9000/api/auth/forgot-password', {
+    const forgotPasswordResponse = await fetch('https://lautech-edu-ng.onrender.com/api/auth/forgot-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
