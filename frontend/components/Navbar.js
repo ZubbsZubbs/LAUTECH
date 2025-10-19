@@ -216,10 +216,10 @@ const Navbar = () => {
 
           </ul>
 
-          {/* Dark Mode Toggle */}
+          {/* Dark Mode Toggle - Desktop and Mobile */}
           <button
             onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
-            className={`hidden lg:block focus:outline-none p-2 rounded-lg transition-all duration-300 ${
+            className={`focus:outline-none p-2 rounded-lg transition-all duration-300 ${
               isScrolled 
                 ? "text-gray-900 hover:bg-gray-100" 
                 : "text-white hover:bg-white/10"
@@ -240,27 +240,27 @@ const Navbar = () => {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden focus:outline-none relative z-[60] p-2 rounded-lg transition-all duration-300 ${
+            className={`lg:hidden focus:outline-none p-2 rounded-lg transition-all duration-300 ${
               isScrolled 
                 ? "text-gray-900 hover:bg-gray-100" 
                 : "text-white hover:bg-white/10"
             }`}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <Menu size={24} />
           </button>
         </div>
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] transition-opacity duration-300"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 shadow-2xl transition-transform duration-500 ease-out z-[55] ${
+          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-2xl transition-transform duration-500 ease-out z-[9999] overflow-y-auto ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -281,8 +281,8 @@ const Navbar = () => {
           </div>
 
           {/* Menu Content */}
-          <div className="h-[calc(100%-120px)] overflow-y-auto px-6 py-6">
-            <ul className="space-y-1">
+          <div className="flex-1 overflow-y-auto px-6 py-6">
+            <ul className="space-y-1 pb-6">
             {NAV_LINKS.map((link) => (
               <li key={link.key}>
                 {link.subLinks ? (
@@ -391,7 +391,7 @@ const Navbar = () => {
             <li>
               <button
                 onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
-                className="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+                className="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200"
               >
                 <span className="flex items-center gap-3">
                   {theme === 'light' ? (
