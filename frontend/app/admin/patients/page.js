@@ -22,9 +22,10 @@ import {
   Check,
   UserPlus,
   FileText,
-  Activity,
-  Loader2
+  Activity
 } from 'lucide-react';
+import Loader from '../../../components/ui/Loader';
+import ButtonLoader from '../../../components/ui/ButtonLoader';
 
 const PatientsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -214,10 +215,10 @@ const PatientsManagement = () => {
           <h1 className="text-2xl font-bold text-gray-900">Patients Management</h1>
           <p className="text-gray-600">Manage patient records and information</p>
         </div>
-        <div className="mt-4 sm:mt-0">
+        <div className="mt-4 sm:mt-0 w-full sm:w-auto">
           <button
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Add Patient
@@ -257,12 +258,7 @@ const PatientsManagement = () => {
       </div>
 
       {/* Loading State */}
-      {loading && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading patients...</span>
-        </div>
-      )}
+      {loading && <Loader text="Loading patients..." />}
 
       {/* Error State */}
       {error && (
@@ -656,8 +652,8 @@ const PatientsManagement = () => {
                     >
                       {submitting ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin inline" />
-                          {editingPatient ? 'Updating...' : 'Adding...'}
+                          <ButtonLoader size="sm" color="white" />
+                          <span className="ml-2">{editingPatient ? 'Updating...' : 'Adding...'}</span>
                         </>
                       ) : (
                         editingPatient ? 'Update Patient' : 'Add Patient'

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import AppointmentModal from "@/components/AppointmentModal";
 import ContactModal from "@/components/ContactModal";
 import FormsModal from "@/components/FormsModal";
+import Loader from "@/components/ui/Loader";
 import { Phone, X, Mail, Calendar, Award, Briefcase } from "lucide-react";
 import { 
   FaHeart, 
@@ -757,10 +758,7 @@ export default function DepartmentDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading department details...</p>
-        </div>
+        <Loader text="Loading department details..." />
       </div>
     );
   }
@@ -1366,8 +1364,7 @@ export default function DepartmentDetailPage() {
           <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
             {loadingDoctor ? (
               <div className="p-12 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading doctor profile...</p>
+                <Loader text="Loading doctor profile..." />
               </div>
             ) : (
               <>

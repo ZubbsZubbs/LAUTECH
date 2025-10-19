@@ -328,7 +328,7 @@ const SettingsPage = () => {
 
   const renderProfileTab = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -397,7 +397,7 @@ const SettingsPage = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Change Password</h3>
         <div className="space-y-4">
           <div>
@@ -474,7 +474,7 @@ const SettingsPage = () => {
 
   const renderHospitalTab = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Hospital Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
@@ -574,16 +574,16 @@ const SettingsPage = () => {
 
   const renderNotificationsTab = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Preferences</h3>
         <div className="space-y-4">
           {Object.entries(notificationSettings).map(([key, value]) => (
-            <div key={key} className="flex items-center justify-between">
-              <div>
-                <h4 className="text-sm font-medium text-gray-900 capitalize">
+            <div key={key} className="flex items-start sm:items-center justify-between gap-3">
+              <div className="flex-1 min-w-0 pr-2">
+                <h4 className="text-sm font-medium text-gray-900 capitalize break-words">
                   {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                 </h4>
-                <p className="text-sm text-gray-500">
+                <p className="text-xs sm:text-sm text-gray-500 break-words">
                   {key === 'emailNotifications' && 'Receive notifications via email'}
                   {key === 'smsNotifications' && 'Receive notifications via SMS'}
                   {key === 'pushNotifications' && 'Receive push notifications in browser'}
@@ -596,7 +596,7 @@ const SettingsPage = () => {
               </div>
               <button
                 onClick={() => handleInputChange('notifications', key, !value)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                   value ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -615,17 +615,17 @@ const SettingsPage = () => {
 
   const renderSecurityTab = () => (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Security Settings</h3>
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-gray-900">Two-Factor Authentication</h4>
-              <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0 pr-2">
+              <h4 className="text-sm font-medium text-gray-900 break-words">Two-Factor Authentication</h4>
+              <p className="text-xs sm:text-sm text-gray-500 break-words">Add an extra layer of security to your account</p>
             </div>
             <button
               onClick={() => handleInputChange('security', 'twoFactorAuth', !securitySettings.twoFactorAuth)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                 securitySettings.twoFactorAuth ? 'bg-blue-600' : 'bg-gray-200'
               }`}
             >
@@ -681,14 +681,14 @@ const SettingsPage = () => {
             </select>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-gray-900">IP Whitelist</h4>
-              <p className="text-sm text-gray-500">Restrict access to specific IP addresses</p>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0 pr-2">
+              <h4 className="text-sm font-medium text-gray-900 break-words">IP Whitelist</h4>
+              <p className="text-xs sm:text-sm text-gray-500 break-words">Restrict access to specific IP addresses</p>
             </div>
             <button
               onClick={() => handleInputChange('security', 'ipWhitelist', !securitySettings.ipWhitelist)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                 securitySettings.ipWhitelist ? 'bg-blue-600' : 'bg-gray-200'
               }`}
             >
@@ -700,14 +700,14 @@ const SettingsPage = () => {
             </button>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-gray-900">Audit Logs</h4>
-              <p className="text-sm text-gray-500">Keep track of all system activities</p>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0 pr-2">
+              <h4 className="text-sm font-medium text-gray-900 break-words">Audit Logs</h4>
+              <p className="text-xs sm:text-sm text-gray-500 break-words">Keep track of all system activities</p>
             </div>
             <button
               onClick={() => handleInputChange('security', 'auditLogs', !securitySettings.auditLogs)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                 securitySettings.auditLogs ? 'bg-blue-600' : 'bg-gray-200'
               }`}
             >
@@ -807,14 +807,14 @@ const SettingsPage = () => {
         </div>
 
         <div className="mt-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-gray-900">Maintenance Mode</h4>
-              <p className="text-sm text-gray-500">Temporarily disable public access for maintenance</p>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0 pr-2">
+              <h4 className="text-sm font-medium text-gray-900 break-words">Maintenance Mode</h4>
+              <p className="text-xs sm:text-sm text-gray-500 break-words">Temporarily disable public access for maintenance</p>
             </div>
             <button
               onClick={() => handleInputChange('system', 'maintenanceMode', !systemSettings.maintenanceMode)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                 systemSettings.maintenanceMode ? 'bg-red-600' : 'bg-gray-200'
               }`}
             >
@@ -826,14 +826,14 @@ const SettingsPage = () => {
             </button>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-gray-900">Debug Mode</h4>
-              <p className="text-sm text-gray-500">Enable detailed error logging and debugging information</p>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0 pr-2">
+              <h4 className="text-sm font-medium text-gray-900 break-words">Debug Mode</h4>
+              <p className="text-xs sm:text-sm text-gray-500 break-words">Enable detailed error logging and debugging information</p>
             </div>
             <button
               onClick={() => handleInputChange('system', 'debugMode', !systemSettings.debugMode)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ${
                 systemSettings.debugMode ? 'bg-blue-600' : 'bg-gray-200'
               }`}
             >
@@ -848,31 +848,31 @@ const SettingsPage = () => {
       </div>
 
       {/* System Actions */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">System Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="flex flex-col items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
-            <Database className="w-6 h-6 text-blue-600 mb-2" />
-            <span className="text-sm font-medium text-blue-900">Create Backup</span>
-            <span className="text-xs text-blue-700">Backup system data</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+          <button className="flex flex-col items-center p-3 sm:p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+            <Database className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mb-2 flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-medium text-blue-900 text-center">Create Backup</span>
+            <span className="text-xs text-blue-700 text-center">Backup system data</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
-            <RefreshCw className="w-6 h-6 text-green-600 mb-2" />
-            <span className="text-sm font-medium text-green-900">Clear Cache</span>
-            <span className="text-xs text-green-700">Clear system cache</span>
+          <button className="flex flex-col items-center p-3 sm:p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+            <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 mb-2 flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-medium text-green-900 text-center">Clear Cache</span>
+            <span className="text-xs text-green-700 text-center">Clear system cache</span>
           </button>
-          <button className="flex flex-col items-center p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors">
-            <Trash2 className="w-6 h-6 text-orange-600 mb-2" />
-            <span className="text-sm font-medium text-orange-900">Clean Logs</span>
-            <span className="text-xs text-orange-700">Remove old log files</span>
+          <button className="flex flex-col items-center p-3 sm:p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors sm:col-span-2 md:col-span-1">
+            <Trash2 className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 mb-2 flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-medium text-orange-900 text-center">Clean Logs</span>
+            <span className="text-xs text-orange-700 text-center">Remove old log files</span>
           </button>
         </div>
       </div>
 
       {/* System Status */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">System Status</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">Database</span>
@@ -1009,27 +1009,28 @@ const SettingsPage = () => {
       {/* Tabs */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="border-b border-gray-200">
-          <nav className="flex space-x-8 px-6">
+          <nav className="flex overflow-x-auto scrollbar-hide px-4 sm:px-6 -mb-px">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
+                  className={`py-4 px-3 sm:px-4 border-b-2 font-medium text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2 whitespace-nowrap flex-shrink-0 ${
                     activeTab === tab.id
                       ? 'border-blue-500 text-blue-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.name}</span>
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">{tab.name}</span>
+                  <span className="sm:hidden">{tab.name.split(' ')[0]}</span>
                 </button>
               );
             })}
           </nav>
         </div>
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {renderTabContent()}
         </div>
       </div>

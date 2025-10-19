@@ -38,6 +38,7 @@ import {
   Newspaper,
   Send
 } from 'lucide-react';
+import ButtonLoader from '@/components/ui/ButtonLoader';
 
 const SchoolOfNursingPage = () => {
   const router = useRouter();
@@ -1283,9 +1284,16 @@ const SchoolOfNursingPage = () => {
                   <button 
                     type="submit"
                     disabled={loading}
-                    className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
-                    {loading ? 'Subscribing...' : 'Subscribe'}
+                    {loading ? (
+                      <>
+                        <ButtonLoader size="sm" color="white" />
+                        <span className="ml-2">Subscribing...</span>
+                      </>
+                    ) : (
+                      'Subscribe'
+                    )}
                   </button>
                 </form>
               </div>
@@ -1440,8 +1448,17 @@ const SchoolOfNursingPage = () => {
                       disabled={loading}
                       className="w-full bg-green-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Send className="w-5 h-5" />
-                      <span>{loading ? 'Sending...' : 'Send Message'}</span>
+                      {loading ? (
+                        <>
+                          <ButtonLoader size="sm" color="white" />
+                          <span className="ml-2">Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>

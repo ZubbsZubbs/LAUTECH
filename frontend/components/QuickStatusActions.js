@@ -6,9 +6,9 @@ import {
   XCircle, 
   Eye, 
   Clock, 
-  MoreHorizontal,
-  Loader2
+  MoreHorizontal
 } from "lucide-react";
+import ButtonLoader from "./ui/ButtonLoader";
 
 const QuickStatusActions = ({ 
   application, 
@@ -85,7 +85,7 @@ const QuickStatusActions = ({
         title={!hasActions ? "No actions available" : "Quick actions"}
       >
         {loading ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
+          <ButtonLoader size="sm" color="gray" />
         ) : (
           <MoreHorizontal className="w-4 h-4" />
         )}

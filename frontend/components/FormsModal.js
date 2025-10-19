@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { X, Download, FileText, CheckCircle, Loader2 } from "lucide-react";
+import { X, Download, FileText, CheckCircle } from "lucide-react";
+import ButtonLoader from "./ui/ButtonLoader";
 
 const FormsModal = ({ isOpen, onClose }) => {
   const [downloading, setDownloading] = useState(null);
@@ -180,8 +181,8 @@ const FormsModal = ({ isOpen, onClose }) => {
                 >
                   {downloading === form.id ? (
                     <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Downloading...
+                      <ButtonLoader size="sm" color="white" />
+                      <span className="ml-2">Downloading...</span>
                     </>
                   ) : (
                     <>

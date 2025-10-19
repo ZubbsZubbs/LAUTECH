@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import StatusUpdateModal from "../../../components/StatusUpdateModal";
 import QuickStatusActions from "../../../components/QuickStatusActions";
+import Loader from "../../../components/ui/Loader";
 
 export default function ApplicationsPage() {
   const [applications, setApplications] = useState([]);
@@ -231,11 +232,7 @@ export default function ApplicationsPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-160px)]">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    return <Loader text="Loading applications..." fullScreen />;
   }
 
   return (
@@ -419,36 +416,36 @@ export default function ApplicationsPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div className="flex flex-wrap gap-1">
-                      {application.documents?.passportPhoto && (
+                      {application.passportPhoto && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                           Photo
                         </span>
                       )}
-                      {application.documents?.otherDocuments?.find(doc => doc.includes('olevelCertificate')) && (
+                      {application.olevelCertificate && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
                           O'Level
                         </span>
                       )}
-                      {application.documents?.otherDocuments?.find(doc => doc.includes('jambResult')) && (
+                      {application.jambResult && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                           JAMB
                         </span>
                       )}
-                      {application.documents?.birthCertificate && (
+                      {application.birthCertificate && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                           Birth Cert
                         </span>
                       )}
-                      {application.documents?.otherDocuments?.find(doc => doc.includes('medicalReport')) && (
+                      {application.medicalReport && (
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                           Medical
                         </span>
                       )}
-                      {!application.documents?.passportPhoto && 
-                       !application.documents?.otherDocuments?.find(doc => doc.includes('olevelCertificate')) &&
-                       !application.documents?.otherDocuments?.find(doc => doc.includes('jambResult')) && 
-                       !application.documents?.birthCertificate && 
-                       !application.documents?.otherDocuments?.find(doc => doc.includes('medicalReport')) && (
+                      {!application.passportPhoto && 
+                       !application.olevelCertificate &&
+                       !application.jambResult && 
+                       !application.birthCertificate && 
+                       !application.medicalReport && (
                         <span className="text-gray-400 text-xs">No documents</span>
                       )}
                     </div>

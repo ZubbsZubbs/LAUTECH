@@ -25,9 +25,9 @@ import {
   Shield,
   Beaker,
   FileText,
-  RefreshCw,
-  Loader2
+  RefreshCw
 } from 'lucide-react';
+import Loader from '../../components/ui/Loader';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -188,12 +188,7 @@ const Dashboard = () => {
       )}
 
       {/* Loading State */}
-      {isLoading && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading dashboard data...</span>
-        </div>
-      )}
+      {isLoading && <Loader text="Loading dashboard data..." />}
 
       {/* Stats Grid */}
       {!isLoading && (

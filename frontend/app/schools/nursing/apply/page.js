@@ -19,6 +19,7 @@ import {
   Award,
   Heart
 } from 'lucide-react';
+import ButtonLoader from '../../../../components/ui/ButtonLoader';
 
 export default function NursingApplicationPage() {
   const router = useRouter();
@@ -823,9 +824,16 @@ export default function NursingApplicationPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
-                  {loading ? 'Submitting...' : 'Submit Application'}
+                  {loading ? (
+                    <>
+                      <ButtonLoader size="sm" color="white" />
+                      <span className="ml-2">Submitting...</span>
+                    </>
+                  ) : (
+                    'Submit Application'
+                  )}
                 </button>
               )}
             </div>

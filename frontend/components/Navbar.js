@@ -216,10 +216,31 @@ const Navbar = () => {
 
           </ul>
 
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
+            className={`hidden lg:block focus:outline-none p-2 rounded-lg transition-all duration-300 ${
+              isScrolled 
+                ? "text-gray-900 hover:bg-gray-100" 
+                : "text-white hover:bg-white/10"
+            }`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            )}
+          </button>
+
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden focus:outline-none z-50 p-2 rounded-lg transition-all duration-300 ${
+            className={`lg:hidden focus:outline-none relative z-[60] p-2 rounded-lg transition-all duration-300 ${
               isScrolled 
                 ? "text-gray-900 hover:bg-gray-100" 
                 : "text-white hover:bg-white/10"
@@ -239,7 +260,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 shadow-2xl transition-transform duration-500 ease-out z-50 ${
+          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 shadow-2xl transition-transform duration-500 ease-out z-[55] ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -360,6 +381,40 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+
+            {/* Divider */}
+            <li className="my-4">
+              <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+            </li>
+
+            {/* Dark Mode Toggle for Mobile */}
+            <li>
+              <button
+                onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
+                className="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+              >
+                <span className="flex items-center gap-3">
+                  {theme === 'light' ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
+                      <span>Dark Mode</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <span>Light Mode</span>
+                    </>
+                  )}
+                </span>
+                <div className={`w-10 h-5 rounded-full transition-colors ${theme === 'dark' ? 'bg-blue-600' : 'bg-gray-300'}`}>
+                  <div className={`w-4 h-4 rounded-full bg-white shadow-md transform transition-transform duration-200 mt-0.5 ${theme === 'dark' ? 'translate-x-5' : 'translate-x-0.5'}`}></div>
+                </div>
+              </button>
+            </li>
           </ul>
           </div>
         </div>

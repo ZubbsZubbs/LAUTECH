@@ -26,6 +26,7 @@ import {
   X,
   Check
 } from 'lucide-react';
+import Loader from '../../../components/ui/Loader';
 
 const DepartmentsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,6 +39,7 @@ const DepartmentsManagement = () => {
   const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   // Fetch departments from API
   useEffect(() => {
@@ -71,6 +73,18 @@ const DepartmentsManagement = () => {
 
     fetchDepartments();
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (openDropdown && !event.target.closest('.relative')) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown]);
 
   const staticDepartments = [
     {
@@ -297,16 +311,7 @@ const DepartmentsManagement = () => {
   };
 
   if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading departments...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <Loader text="Loading departments..." />;
   }
 
   if (error) {
@@ -338,7 +343,7 @@ const DepartmentsManagement = () => {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="mt-4 sm:mt-0 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Department
@@ -393,9 +398,46 @@ const DepartmentsManagement = () => {
                     </div>
                   </div>
                   <div className="relative">
-                    <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <button 
+                      onClick={() => setOpenDropdown(openDropdown === department._id || openDropdown === department.id ? null : (department._id || department.id))}
+                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+                    >
                       <MoreVertical className="w-4 h-4" />
                     </button>
+                    {openDropdown === (department._id || department.id) && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
+                        <button
+                          onClick={() => {
+                            handleViewTeam(department);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                        >
+                          <Users className="w-4 h-4 mr-2" />
+                          View Team
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleEdit(department);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleDelete(department);
+                            setOpenDropdown(null);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 

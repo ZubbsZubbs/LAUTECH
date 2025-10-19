@@ -296,28 +296,11 @@ const ReportsPage = () => {
             </p>
           )}
         </div>
-        <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row gap-2">
-          <button
-            onClick={loadReportData}
-            disabled={isLoading}
-            className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Loading...
-              </>
-            ) : (
-              <>
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Refresh
-              </>
-            )}
-          </button>
+        <div className="mt-4 sm:mt-0 flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <button
             onClick={handleGenerateReport}
             disabled={isGenerating}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors w-full sm:w-auto"
           >
             {isGenerating ? (
               <>
@@ -332,22 +315,13 @@ const ReportsPage = () => {
             )}
           </button>
           {reportData && (
-            <div className="flex gap-1">
-              <button
-                onClick={() => handleExportReport('csv')}
-                className="inline-flex items-center px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
-              >
-                <Download className="w-4 h-4 mr-1" />
-                CSV
-              </button>
-              <button
-                onClick={() => handleExportReport('json')}
-                className="inline-flex items-center px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
-              >
-                <Download className="w-4 h-4 mr-1" />
-                JSON
-              </button>
-            </div>
+            <button
+              onClick={() => handleExportReport('csv')}
+              className="flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors w-full sm:w-auto"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Export CSV
+            </button>
           )}
         </div>
       </div>

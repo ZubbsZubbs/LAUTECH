@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { restoreAuth } from "../../../store/authSlice";
 import ProtectedRoute from "../../../components/auth/ProtectedRoute";
+import { useTheme } from "../../../contexts/ThemeContext";
 import { 
   FileText, 
   Clock, 
@@ -48,11 +49,13 @@ import {
   Share2,
   ExternalLink
 } from "lucide-react";
+import Loader from "../../../components/ui/Loader";
 
 export default function StudentDashboard() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { user, token, isAuthenticated } = useSelector((state) => state.auth);
+  const { theme, changeTheme } = useTheme();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -66,8 +69,7 @@ export default function StudentDashboard() {
     emailNotifications: true,
     smsNotifications: false,
     applicationUpdates: true,
-    deadlineReminders: true,
-    theme: 'light'
+    deadlineReminders: true
   });
 
   const handleSaveSettings = async () => {
@@ -102,44 +104,9 @@ export default function StudentDashboard() {
     }
   };
 
-  const handleThemeChange = (theme) => {
-    setSettings({...settings, theme});
-    
-    // Apply theme immediately
-    applyTheme(theme);
-  };
-
-  const applyTheme = (theme) => {
-    const root = document.documentElement;
-    
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.style.setProperty('--bg-primary', '#1a1a1a');
-      root.style.setProperty('--bg-secondary', '#2d2d2d');
-      root.style.setProperty('--text-primary', '#ffffff');
-      root.style.setProperty('--text-secondary', '#e5e5e5');
-    } else if (theme === 'light') {
-      root.classList.remove('dark');
-      root.style.setProperty('--bg-primary', '#ffffff');
-      root.style.setProperty('--bg-secondary', '#f8f9fa');
-      root.style.setProperty('--text-primary', '#1a1a1a');
-      root.style.setProperty('--text-secondary', '#6b7280');
-    } else if (theme === 'auto') {
-      // Auto theme based on system preference
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        root.classList.add('dark');
-        root.style.setProperty('--bg-primary', '#1a1a1a');
-        root.style.setProperty('--bg-secondary', '#2d2d2d');
-        root.style.setProperty('--text-primary', '#ffffff');
-        root.style.setProperty('--text-secondary', '#e5e5e5');
-      } else {
-        root.classList.remove('dark');
-        root.style.setProperty('--bg-primary', '#ffffff');
-        root.style.setProperty('--bg-secondary', '#f8f9fa');
-        root.style.setProperty('--text-primary', '#1a1a1a');
-        root.style.setProperty('--text-secondary', '#6b7280');
-      }
-    }
+  const handleThemeChange = (newTheme) => {
+    // Use the global theme context
+    changeTheme(newTheme);
   };
 
   const handleChangePassword = () => {
@@ -181,9 +148,6 @@ export default function StudentDashboard() {
     if (savedSettings) {
       const parsedSettings = JSON.parse(savedSettings);
       setSettings(parsedSettings);
-      
-      // Apply theme immediately
-      applyTheme(parsedSettings.theme);
     }
   }, [dispatch]);
 
@@ -357,8 +321,7 @@ export default function StudentDashboard() {
       <ProtectedRoute>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
-            <RefreshCw className="w-8 h-8 animate-spin text-green-600 mx-auto mb-4" />
-            <p className="text-gray-600 mb-4">Loading your applications...</p>
+            <Loader size="md" text="Loading your applications..." />
             <div className="space-y-2">
               <button
                 onClick={() => {
@@ -610,13 +573,12 @@ export default function StudentDashboard() {
                       <label className="flex items-center justify-between">
                         <span className="text-sm text-gray-700 dark:text-gray-300">Theme</span>
                         <select
-                          value={settings.theme}
+                          value={theme}
                           onChange={(e) => handleThemeChange(e.target.value)}
                           className="px-3 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
                         >
                           <option value="light">Light</option>
                           <option value="dark">Dark</option>
-                          <option value="auto">Auto</option>
                         </select>
                       </label>
                     </div>

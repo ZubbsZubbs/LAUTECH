@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { X, Calendar, Phone, FileText, Send, Loader2 } from "lucide-react";
+import { X, Calendar, Phone, FileText, Send } from "lucide-react";
+import ButtonLoader from "./ui/ButtonLoader";
 
 const AppointmentModal = ({ isOpen, onClose, department }) => {
   const [formData, setFormData] = useState({
@@ -212,8 +213,8 @@ const AppointmentModal = ({ isOpen, onClose, department }) => {
               >
                 {loading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Submitting...
+                    <ButtonLoader size="sm" color="white" />
+                    <span className="ml-2">Submitting...</span>
                   </>
                 ) : (
                   <>

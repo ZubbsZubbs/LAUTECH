@@ -22,9 +22,10 @@ import {
   X,
   Check,
   CalendarPlus,
-  FileText,
-  Loader2
+  FileText
 } from 'lucide-react';
+import Loader from '../../../components/ui/Loader';
+import ButtonLoader from '../../../components/ui/ButtonLoader';
 
 const AppointmentsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -255,18 +256,10 @@ const AppointmentsManagement = () => {
           <h1 className="text-2xl font-bold text-gray-900">Appointments Management</h1>
           <p className="text-gray-600">Manage patient appointments and scheduling</p>
         </div>
-        <div className="mt-4 sm:mt-0 flex space-x-3">
-          <button
-            onClick={fetchAppointments}
-            disabled={loading}
-            className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            <Loader2 className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
-          </button>
+        <div className="mt-4 sm:mt-0 w-full sm:w-auto">
         <button
           onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
         >
           <CalendarPlus className="w-4 h-4 mr-2" />
           Schedule Appointment
@@ -315,12 +308,7 @@ const AppointmentsManagement = () => {
       </div>
 
       {/* Loading State */}
-      {loading && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading appointments...</span>
-        </div>
-      )}
+      {loading && <Loader text="Loading appointments..." />}
 
       {/* Error State */}
       {error && (
@@ -418,7 +406,7 @@ const AppointmentsManagement = () => {
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0 text-xs text-gray-500">
                       <span>Created: {formatDate(appointment.createdAt)}</span>
                       <span>Updated: {formatDate(appointment.updatedAt)}</span>
                     </div>
@@ -627,8 +615,8 @@ const AppointmentsManagement = () => {
                     >
                       {submitting ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin inline" />
-                          {editingAppointment ? 'Updating...' : 'Scheduling...'}
+                          <ButtonLoader size="sm" color="white" />
+                          <span className="ml-2">{editingAppointment ? 'Updating...' : 'Scheduling...'}</span>
                         </>
                       ) : (
                         editingAppointment ? 'Update Appointment' : 'Schedule Appointment'

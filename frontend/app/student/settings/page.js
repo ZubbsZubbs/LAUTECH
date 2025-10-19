@@ -11,9 +11,10 @@ import {
   X,
   AlertCircle,
   Settings as SettingsIcon,
-  Loader2,
   RefreshCw
 } from 'lucide-react';
+import Loader from '../../../components/ui/Loader';
+import ButtonLoader from '../../../components/ui/ButtonLoader';
 import {
   getSettings,
   updateNotificationSettings
@@ -138,14 +139,7 @@ const StudentSettingsPage = () => {
   );
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-gray-600">Loading settings...</p>
-        </div>
-      </div>
-    );
+    return <Loader text="Loading settings..." fullScreen />;
   }
 
   return (
@@ -231,8 +225,8 @@ const StudentSettingsPage = () => {
             >
               {isSaving ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Saving...
+                  <ButtonLoader size="sm" color="white" />
+                  <span className="ml-2">Saving...</span>
                 </>
               ) : (
                 <>

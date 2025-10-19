@@ -8,9 +8,9 @@ import {
   Eye, 
   Clock, 
   AlertCircle,
-  Send,
-  Loader2
+  Send
 } from "lucide-react";
+import ButtonLoader from "./ui/ButtonLoader";
 
 const StatusUpdateModal = ({ 
   isOpen, 
@@ -238,12 +238,12 @@ const StatusUpdateModal = ({
               <button
                 onClick={handleStatusUpdate}
                 disabled={loading || selectedStatus === application?.status}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center"
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Updating...
+                    <ButtonLoader size="sm" color="white" />
+                    <span className="ml-2">Updating...</span>
                   </>
                 ) : (
                   <>
@@ -297,12 +297,12 @@ const StatusUpdateModal = ({
                 <button
                   onClick={confirmStatusUpdate}
                   disabled={loading}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Updating...
+                      <ButtonLoader size="sm" color="white" />
+                      <span className="ml-2">Updating...</span>
                     </>
                   ) : (
                     <>

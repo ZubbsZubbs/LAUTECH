@@ -26,6 +26,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import doctorService from '../../../services/doctorService';
+import Loader from '../../../components/ui/Loader';
 import uploadService from '../../../services/uploadService';
 
 const DoctorsManagement = () => {
@@ -296,7 +297,7 @@ const DoctorsManagement = () => {
             resetForm();
             setShowAddModal(true);
           }}
-          className="mt-4 sm:mt-0 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="mt-4 sm:mt-0 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
         >
           <UserPlus className="w-4 h-4 mr-2" />
           Add Doctor
@@ -343,12 +344,7 @@ const DoctorsManagement = () => {
       )}
 
       {/* Loading State */}
-      {loading && (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="ml-2 text-gray-600">Loading doctors...</span>
-        </div>
-      )}
+      {loading && <Loader text="Loading doctors..." />}
 
       {/* Doctors Table */}
       {!loading && (
