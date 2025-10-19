@@ -253,21 +253,22 @@ const Navbar = () => {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
-          <div
-            className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[110] transition-opacity duration-300"
-            onClick={() => setIsMenuOpen(false)}
-          />
-        )}
-
-        {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
         <div
-          className={`lg:hidden fixed top-0 right-0 h-full w-80 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-2xl transition-transform duration-500 ease-out z-[120] overflow-y-auto ${
-            isMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-        >
+          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998] transition-opacity duration-300"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
+      <div
+        className={`lg:hidden fixed top-0 right-0 h-screen w-80 bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-500 ease-out z-[9999] overflow-y-auto ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
           {/* Menu Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 shadow-lg">
             <div className="flex items-center justify-between">
@@ -285,7 +286,7 @@ const Navbar = () => {
           </div>
 
           {/* Menu Content */}
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="flex-1 overflow-y-auto px-6 py-6 bg-white dark:bg-gray-900">
             <ul className="space-y-1 pb-6">
             {NAV_LINKS.map((link) => (
               <li key={link.key}>
@@ -422,7 +423,6 @@ const Navbar = () => {
           </ul>
           </div>
         </div>
-      </div>
 
       {/* Search Results */}
       {searchResults.length > 0 && (
