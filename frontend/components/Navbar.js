@@ -216,38 +216,41 @@ const Navbar = () => {
 
           </ul>
 
-          {/* Dark Mode Toggle - Desktop and Mobile */}
-          <button
-            onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
-            className={`focus:outline-none p-2 rounded-lg transition-all duration-300 ${
-              isScrolled 
-                ? "text-gray-900 hover:bg-gray-100" 
-                : "text-white hover:bg-white/10"
-            }`}
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            )}
-          </button>
+          {/* Right side buttons container */}
+          <div className="flex items-center gap-2">
+            {/* Dark Mode Toggle - Desktop and Mobile */}
+            <button
+              onClick={() => changeTheme(theme === 'light' ? 'dark' : 'light')}
+              className={`focus:outline-none p-2 rounded-lg transition-all duration-300 ${
+                isScrolled 
+                  ? "text-gray-900 hover:bg-gray-100" 
+                  : "text-white hover:bg-white/10"
+              }`}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {theme === 'light' ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              )}
+            </button>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden focus:outline-none p-2 rounded-lg transition-all duration-300 ${
-              isScrolled 
-                ? "text-gray-900 hover:bg-gray-100" 
-                : "text-white hover:bg-white/10"
-            }`}
-          >
-            <Menu size={24} />
-          </button>
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`lg:hidden focus:outline-none p-2 rounded-lg transition-all duration-300 ${
+                isScrolled 
+                  ? "text-gray-900 hover:bg-gray-100" 
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Overlay */}
@@ -290,7 +293,7 @@ const Navbar = () => {
                   <div>
                     <button
                       onClick={() => toggleMobileSubmenu(link.key)}
-                      className="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200 group"
+                      className="w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200 group"
                     >
                       <span>{link.label}</span>
                       <svg
@@ -315,7 +318,7 @@ const Navbar = () => {
                           <Link
                             href={subLink.href}
                             onClick={() => setIsMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200"
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
                             <span>{subLink.label}</span>
@@ -329,7 +332,7 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+                    className="block px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -348,7 +351,7 @@ const Navbar = () => {
                 <Link
                   href={link.key === 'login' ? '/auth/login?redirect=/student/dashboard' : link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+                  className="block px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200"
                 >
                   {link.label}
                 </Link>
@@ -361,7 +364,7 @@ const Navbar = () => {
                 <Link
                   href="/student/dashboard"
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 hover:text-blue-600 hover:bg-blue-50/50 rounded-lg transition-all duration-200"
+                  className="flex items-center gap-3 px-4 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all duration-200"
                 >
                   <User className="w-5 h-5" />
                   <span>My Applications</span>

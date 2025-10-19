@@ -23,6 +23,7 @@ export const NAV_LINKS = [
       { key: "nursing", label: "Nursing", href: "/schools/nursing" },
       { key: "midwifery", label: "Midwifery", href: "/schools/midwifery" },
       { key: "health-info", label: "Health Information", href: "/schools/health-information" },
+      { key: "view-all-schools", label: "View All Schools", href: "/schools" },
     ]
   },
   { key: "services", label: "Services", href: "/services" },
