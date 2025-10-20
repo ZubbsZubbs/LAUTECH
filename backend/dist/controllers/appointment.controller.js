@@ -94,8 +94,8 @@ const createAppointment = async (req, res) => {
         });
         await appointment.save();
         // Send confirmation email to patient asynchronously (don't wait)
+        // Don't pass userId so it bypasses notification preference checks
         notification_service_1.NotificationService.sendNotification({
-            userId: req.user?.id, // Get from authenticated user
             email: appointment.patientEmail,
             subject: `Appointment Request Confirmation - ${appointment.department}`,
             text: `Appointment Request Confirmation - ${appointment.department}`,
@@ -310,8 +310,8 @@ const updateAppointmentStatus = async (req, res) => {
         }
         await appointment.save();
         // Send status update email to patient asynchronously (don't wait)
+        // Don't pass userId so it bypasses notification preference checks
         notification_service_1.NotificationService.sendNotification({
-            userId: req.user?.id, // Get from authenticated user
             email: appointment.patientEmail,
             subject: `Appointment Status Update - ${appointment.department}`,
             text: `Appointment Status Update - ${appointment.department}`,

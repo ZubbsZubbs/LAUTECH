@@ -108,8 +108,8 @@ const createNursingApplication = async (req, res) => {
         const application = new Application_1.default(applicationData);
         await application.save();
         // Send confirmation email to applicant asynchronously (don't wait)
+        // Don't pass userId so it bypasses notification preference checks
         notification_service_1.NotificationService.sendNotification({
-            userId: application.email, // Use email as identifier
             email: application.email,
             subject: `Application Submitted Successfully - ${application.applicationNumber}`,
             text: `Application Submitted Successfully - ${application.applicationNumber}`,
