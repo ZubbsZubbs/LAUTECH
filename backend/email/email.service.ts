@@ -1,5 +1,6 @@
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
+import ResendEmailService from './resend-email.service';
 
 dotenv.config();
 
@@ -34,6 +35,17 @@ if (hasEmailConfig) {
 class EmailService {
   async sendEmail(to: string, subject: string, text: string, html?: string) {
     try {
+      // Try Resend first (works with Render free tier)
+      console.log('🔄 [EmailService] Attempting to send via Resend first...');
+      const resendResult = await ResendEmailService.sendEmail(to, subject, text, html);
+      
+      if (resendResult) {
+        console.log('✅ Email sent successfully via Resend');
+        return resendResult;
+      }
+
+      console.log('⚠️ Resend failed or not configured, falling back to SMTP...');
+
       // If no email config, just log the email content
       if (!hasEmailConfig) {
         this.logEmailToFile(to, subject, text, 'NO_CONFIG', html);

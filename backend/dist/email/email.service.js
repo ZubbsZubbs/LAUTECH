@@ -32,9 +32,13 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer = __importStar(require("nodemailer"));
 const dotenv = __importStar(require("dotenv"));
+const resend_email_service_1 = __importDefault(require("./resend-email.service"));
 dotenv.config();
 // Check if email credentials are configured
 const hasEmailConfig = process.env.EMAIL_USER && process.env.EMAIL_PASS;
@@ -64,6 +68,14 @@ else {
 class EmailService {
     async sendEmail(to, subject, text, html) {
         try {
+            // Try Resend first (works with Render free tier)
+            console.log('🔄 [EmailService] Attempting to send via Resend first...');
+            const resendResult = await resend_email_service_1.default.sendEmail(to, subject, text, html);
+            if (resendResult) {
+                console.log('✅ Email sent successfully via Resend');
+                return resendResult;
+            }
+            console.log('⚠️ Resend failed or not configured, falling back to SMTP...');
             // If no email config, just log the email content
             if (!hasEmailConfig) {
                 this.logEmailToFile(to, subject, text, 'NO_CONFIG', html);
